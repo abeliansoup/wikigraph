@@ -74,6 +74,9 @@ python wikigame_graph_multi.py build \
 python wikigame_graph_multi.py query --cache cache/enwiki-latest \
        --src "Bandsaw" --dst "Taylor_Swift"
 
+# Verify a candidate path
+python wikigame_graph_multi.py verify --cache cache/enwiki-latest --titles Bandsaw,Tape_measure,Distance,Kevin_Bacon
+
 # Sample 5 reachable pairs
 python wikigame_graph_multi.py sample --cache cache/enwiki-latest --count 5
 ```
