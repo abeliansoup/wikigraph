@@ -50,14 +50,12 @@ from multiprocessing import get_context
 MAIN_NS = 0
 
 from rindex import SCCReachabilityIndex
-from gb_bfs import cmd_query
+from gb_bfs import cmd_query, cmd_verify
 from c_helpers import (
     bin_to_edgelist,
     shards_to_edgelist,
     build_graph_via_edgelist
 )
-
-
 
 
 # ----------------------------- Low-memory SQLite builder -----------------------
@@ -1006,7 +1004,7 @@ def cmd_convert(args):
 
     print(f"[✓] Converted to {out_nkbg} and {out_map}")
 
-def cmd_verify(args):
+def cmd_nk_verify(args):
     cache = Path(args.cache)
     G, conn = _ensure_cache(cache)
     if args.nids:

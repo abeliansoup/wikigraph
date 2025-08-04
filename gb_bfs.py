@@ -11,6 +11,7 @@ Usage:
 """
 import os
 import sys
+import json
 import struct
 import sqlite3
 import argparse
@@ -56,6 +57,54 @@ gb.ss.config["format"] = "by_row"      # good default for push (frontier @ A)
 def _safe_path(p: str | Path) -> str:
     return Path(p).resolve().as_posix()
 
+from pathlib import Path
+import sqlite3
+import graphblas as gb
+
+def _ensure_cache_graphblas(cache_dir: Path, *, npz_name: str = "A.coo.npz", sqlite_name: str | None = None):
+    """
+    Load directed adjacency A from a SciPy .npz (COO/CSR/etc) into GraphBLAS,
+    recompute AT = A.T to avoid staleness, and open the titles DB.
+
+    Returns
+    -------
+    (A, AT, conn)
+      A  : gb.Matrix[BOOL], square; A[u, v] == True means u -> v
+      AT : gb.Matrix[BOOL], recomputed transpose of A
+      conn : sqlite3.Connection (first *.sqlite in cache or `sqlite_name`)
+    """
+    cache_dir = Path(cache_dir)
+
+    # --- load A from SciPy .npz then convert to GraphBLAS
+    npz_path = cache_dir / npz_name
+    if not npz_path.exists():
+        raise FileNotFoundError(f"Adjacency not found: {npz_path}")
+
+    A = load_matrix_npz(npz_path)
+    if A.dtype != gb.dtypes.BOOL: 
+        A = A.dup(dtype=gb.dtypes.BOOL)
+
+    if A.nrows != A.ncols:
+        raise ValueError(f"Adjacency must be square; got {A.nrows}x{A.ncols}")
+
+    AT = A.T
+    assert A.isequal(AT.T), "A != (A.T).T; adjacency mutated during load?"
+
+    # --- open SQLite DB for title<->nid lookups
+    if sqlite_name:
+        db_path = cache_dir / sqlite_name
+        if not db_path.exists():
+            raise FileNotFoundError(f"SQLite DB not found: {db_path}")
+    else:
+        dbs = sorted(cache_dir.glob("*.sqlite"))
+        if not dbs:
+            raise FileNotFoundError(f"No *.sqlite DB found in {cache_dir}")
+        db_path = dbs[0]
+
+    conn = sqlite3.connect(str(db_path))
+    return A, AT, conn
+
+
 # ----------------------------- SQLite helpers -----------------------------
 def open_title_db_readonly(db_path: str):
     return sqlite3.connect(f"file:{db_path}?mode=ro&immutable=1", uri=True)
@@ -75,6 +124,21 @@ def resolve_title_to_nid(cur, ns: int, title: str):
 def nid_to_title(cur, nid: int) -> str:
     r = cur.execute("SELECT title FROM title WHERE nid=? LIMIT 1", (nid,)).fetchone()
     return r[0] if r else f"nid:{nid}"
+
+def titles_to_nids(conn, titles: list[str]) -> list[int]:
+    """
+    Resolve page titles to node IDs using your SQLite DB.
+    Raises ValueError if any title is missing.
+    """
+    cur = conn.cursor()
+    nids = []
+    for t in titles:
+        cur.execute("SELECT nid FROM title WHERE title = ?", (t,))
+        row = cur.fetchone()
+        if not row:
+            raise ValueError(f"unknown title: {t}")
+        nids.append(int(row[0]))
+    return nids
 
 # ------------------------- Build/load GraphBLAS A, AT ----------------------
 def _node_count(db_path: str) -> int:
@@ -126,6 +190,25 @@ def _validate_path(A: gb.Matrix, path: list[int]) -> bool:
         if not (s is not None and getattr(s, "value", False)):
             return False
     return True
+
+def verify_path_by_nids_gb(A: gb.Matrix, path_nids: list[int]) -> dict:
+    if not path_nids or len(path_nids) < 2:
+        return {"ok": False, "msg": "path must contain at least two nodes", "fail_index": 0}
+    n = A.nrows
+    for i in range(len(path_nids) - 1):
+        u, v = path_nids[i], path_nids[i + 1]
+        if u < 0 or v < 0 or u >= n or v >= n:
+            return {"ok": False, "msg": f"invalid node id at step {i}: {u}->{v}", "fail_index": i}
+        if not bool(A.get(u, v, default=False)):
+            return {"ok": False, "msg": f"missing directed edge at step {i}: {u}->{v}", "fail_index": i}
+    return {"ok": True, "msg": f"valid path of length {len(path_nids) - 1}", "fail_index": None}
+
+def verify_path_by_titles_gb(conn, A: gb.Matrix, titles: list[str]) -> dict:
+    try:
+        nids = titles_to_nids(conn, titles)
+    except ValueError as e:
+        return {"ok": False, "msg": str(e), "fail_index": 0}
+    return verify_path_by_nids_gb(A, nids)
 
 def build_grb_from_edges(edges_bin: str, n: int, *, tile_pairs: int = 25_000_000) -> Matrix:
     """
@@ -373,6 +456,68 @@ def exists_bidirectional(
         if debug and (k % 2 == 0):
             logger.debug(f"[bi] k={k} | |f_fwd|={f_fwd.nvals} |f_bwd|={f_bwd.nvals}")
     return False
+
+def verify_path_by_nids_gb(A: gb.Matrix, path_nids: list[int]) -> dict:
+    """
+    Validate a path [n0, n1, ..., nk] against *directed* graph A (BOOL).
+    Returns dict like your NetworKit version: ok, msg, fail_index.
+    """
+    if not path_nids or len(path_nids) < 2:
+        return {"ok": False, "msg": "path must contain at least two nodes", "fail_index": 0}
+
+    n = A.nrows
+    for i in range(len(path_nids) - 1):
+        u, v = path_nids[i], path_nids[i + 1]
+        # bounds (GraphBLAS doesn't have hasNode; sparsity is allowed)
+        if u < 0 or v < 0 or u >= n or v >= n:
+            return {"ok": False, "msg": f"invalid node id at step {i}: {u}->{v}", "fail_index": i}
+
+        # single-element lookup; returns Python scalar (or default if absent)
+        exists = bool(A.get(u, v, default=False))
+        # (Equivalently: s = A[u, v]; exists = s is not None and bool(getattr(s, "value", False)))
+        # Doc: element access / .get(row, col, default=...) returns a Python scalar. :contentReference[oaicite:0]{index=0}
+        if not exists:
+            return {"ok": False, "msg": f"missing directed edge at step {i}: {u}->{v}", "fail_index": i}
+
+    return {"ok": True, "msg": f"valid path of length {len(path_nids) - 1}", "fail_index": None}
+
+def verify_path_by_nids_gb_batch(A: gb.Matrix, path_nids: list[int]) -> dict:
+    """
+    Batch-verify all consecutive edges of path_nids on directed A (BOOL).
+    Creates a sparse mask M with ones at each (u_i, v_i) and tests A ∧ M.
+    """
+    if not path_nids or len(path_nids) < 2:
+        return {"ok": False, "msg": "path must contain at least two nodes", "fail_index": 0}
+
+    n = A.nrows
+    rows = path_nids[:-1]
+    cols = path_nids[1:]
+
+    # bounds check first
+    for i, (u, v) in enumerate(zip(rows, cols)):
+        if u < 0 or v < 0 or u >= n or v >= n:
+            return {"ok": False, "msg": f"invalid node id at step {i}: {u}->{v}", "fail_index": i}
+
+    m = len(rows)
+    # Build a sparse mask with just the path’s edges (no large memory: only m entries)
+    # Matrix/Vector have .from_coo() for constructing from coordinate lists. :contentReference[oaicite:1]{index=1}
+    M = gb.Matrix.from_coo(rows, cols, [True] * m, nrows=n, ncols=A.ncols, dtype=dtypes.BOOL)
+
+    # Intersection: C has entries only where both A and M have structure.
+    C = (A & M).new()  # eWiseMult on BOOL acts as structural AND (see ops docs). :contentReference[oaicite:2]{index=2}
+    if C.nvals == m:
+        return {"ok": True, "msg": f"valid path of length {m}", "fail_index": None}
+
+    # Identify first missing edge: symmetric difference M ^ C == (edges requested) minus (edges found)
+    missing = (M ^ C).new()
+    # Get one coordinate back to an index in the path
+    miss_r, miss_c, _ = missing.to_coo()  # to_coo for coordinates/values. :contentReference[oaicite:3]{index=3}
+    # Map (u,v) -> i
+    pos = { (u, v): i for i, (u, v) in enumerate(zip(rows, cols)) }
+    i = pos.get((int(miss_r[0]), int(miss_c[0])), 0)
+    return {"ok": False, "msg": f"missing directed edge at step {i}: {rows[i]}->{cols[i]}", "fail_index": i}
+
+
 # ----------------------------- CLI -----------------------------------------
 def cmd_build_grb(args):
     cache = args.cache
@@ -396,6 +541,20 @@ def cmd_query(args):
         titles = [nid_to_title(cur, nid) for nid in path]
         print(f"[+] Path ({len(path)-1} hops): " + " -> ".join(titles))
 
+def cmd_verify(args):
+    cache = Path(args.cache)
+
+    # Uses your GB loader that reads A.coo.npz and opens the DB
+    A, AT, conn = _ensure_cache_graphblas(cache)  # defined earlier
+    if args.nids:
+        path = [int(x) for x in args.nids.split(",") if x.strip()]
+        res = verify_path_by_nids_gb(A, path)
+    else:
+        titles = [t.strip() for t in args.titles.split(",") if t.strip()]
+        res = verify_path_by_titles_gb(conn, A, titles)
+
+    print(json.dumps(res, ensure_ascii=False))
+
 def main():
     ap = argparse.ArgumentParser(prog="gb_bfs.py")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -409,6 +568,13 @@ def main():
     ap_q.add_argument("--src", required=True)
     ap_q.add_argument("--dst", required=True)
     ap_q.set_defaults(func=cmd_query)
+
+    ap_verify = sub.add_parser("verify", help="Verify that a given path is valid")
+    ap_verify.add_argument("--cache", required=True)
+    g = ap_verify.add_mutually_exclusive_group(required=True)
+    g.add_argument("--titles", help="Comma-separated titles")
+    g.add_argument("--nids", help="Comma-separated nids")
+    ap_verify.set_defaults(func=cmd_verify)
 
     args = ap.parse_args()
     args.func(args)
