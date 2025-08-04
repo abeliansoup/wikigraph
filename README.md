@@ -37,7 +37,7 @@ pip install mwsql networkit tqdm psutil
 ### Windows (low‑mem default)
 
 ```bash
-python wikigame_graph.py build \
+python wikigame_graph_multi.py build \
        --wiki enwiki --date latest \
        --cache cache/enwiki-latest \
        --drop-disambig \
@@ -47,7 +47,7 @@ python wikigame_graph.py build \
 ### Linux/macOS (fast default)
 
 ```bash
-python wikigame_graph.py build \
+python wikigame_graph_multi.py build \
        --wiki enwiki --date latest \
        --cache cache/enwiki-latest \
        --drop-disambig \
@@ -71,11 +71,11 @@ python wikigame_graph.py build \
 
 ```bash
 # Shortest path
-python wikigame_graph.py query --cache cache/enwiki-latest \
+python wikigame_graph_multi.py query --cache cache/enwiki-latest \
        --src "Bandsaw" --dst "Taylor_Swift"
 
 # Sample 5 reachable pairs
-python wikigame_graph.py sample --cache cache/enwiki-latest --count 5
+python wikigame_graph_multi.py sample --cache cache/enwiki-latest --count 5
 ```
 
 ---
