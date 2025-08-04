@@ -18,6 +18,8 @@
   * `graph.nkbg` - NetworKitBinary format (fastest reload)
   * `title_index.sqlite` - tiny read‑only DB: article → nid, redirects, `linktarget→pid` (if modern schema)
   * `edges.bin` (+ optional `edges.txt`) - intermediate packed edges / text edgelist.
+  * `A.coo.npz` - GraphBLAS sparse matrices (coordinate format) for fast BFS queries
+
 
 ---
 
@@ -25,7 +27,7 @@
 
 ```bash
 python -m venv .venv && source .venv/bin/activate  # Windows: .venv\Scripts\activate
-pip install mwsql networkit tqdm psutil
+pip install mwsql networkit tqdm psutil python-graphblas graphblas-algorithms suitesparse-graphblas 
 ```
 
 > NetworKit 10+ wheels exist for modern CPython on Win/Linux/macOS.

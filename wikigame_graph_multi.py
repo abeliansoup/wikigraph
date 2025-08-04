@@ -50,11 +50,14 @@ from multiprocessing import get_context
 MAIN_NS = 0
 
 from rindex import SCCReachabilityIndex
+from gb_bfs import cmd_query
 from c_helpers import (
     bin_to_edgelist,
     shards_to_edgelist,
     build_graph_via_edgelist
 )
+
+
 
 
 # ----------------------------- Low-memory SQLite builder -----------------------
@@ -784,6 +787,13 @@ def cmd_build(args):
         print(f"[+] Allocating graph with {n_nodes:,} nodes ...")
         G = nk.Graph(int(n_nodes), weighted=False, directed=True)
 
+        print("[+] Post-processing graph (dedup, sort, compact) ...")
+        G.removeSelfLoops()
+        G.removeMultiEdges()
+        G.sortEdges()
+        G.compactEdges()
+        print(f"    |V|={G.numberOfNodes():,} |E|={G.numberOfEdges():,}")
+
         print("[+] Extracting edges to edges.bin ...")
         extract_edges_to_bin_lowmem(pagelinks_sql, titledb, edges_bin, also_build=False)
 
@@ -927,7 +937,7 @@ def _ensure_cache(cache: Path) -> Tuple[nk.Graph, sqlite3.Connection]:
     conn = open_title_db_readonly(titledb)
     return G, conn
 
-def cmd_query(args):
+def cmd_nk_query(args):
     cache = Path(args.cache)
     G, conn = _ensure_cache(cache)
     cur = conn.cursor()
