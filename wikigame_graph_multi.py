@@ -29,6 +29,8 @@ Examples:
 """
 
 import os
+import io
+import sys
 import math
 import json
 import pickle
@@ -39,13 +41,14 @@ import sqlite3
 import platform
 import argparse
 from tqdm import tqdm
-from pathlib import Path
-from typing import Dict, Iterable, List, Optional, Set, Tuple
 import networkit as nk
+from pathlib import Path
 from functools import lru_cache
 from mwsql import Dump as MwDump
 from mwsql import load as mw_load
+from types import SimpleNamespace
 from multiprocessing import get_context
+from typing import Dict, Iterable, List, Optional, Set, Tuple
 
 MAIN_NS = 0
 
@@ -955,6 +958,87 @@ def cmd_nk_query(args):
         titles.append(row[0] if row else f"nid:{nid}")
     print(f"[+] Path ({len(path)-1} hops): " + " -> ".join(titles))
 
+def sample_set(n: int, 
+                   output_path: str, 
+                   cache: str = "cache/enwiki-latest", 
+                   src: Optional[str] = None, 
+                   dst: Optional[str] = None) -> List[str]:
+    """Sample up to *n* shortest paths and write them to *output_path*.
+
+    If *src* or *dst* are ``None`` they will be chosen from a full randomly
+    shuffled list of all article titles in the cache. Uses cmd_query from
+    gb_bfs for pathfinding.
+
+    The function returns the list of human-readable path strings that were
+    successfully found and also writes one line per path to the text file
+    located at *output_path*.
+    """    
+    cache_path = Path(cache)
+    _, conn = _ensure_cache(cache_path)
+    cur = conn.cursor()
+
+    # Get all titles and shuffle them for random selection
+    all_titles = [row[0] for row in cur.execute("SELECT title FROM title ORDER BY title")]
+    random.shuffle(all_titles)
+    
+    # Prepare source and destination lists
+    if src is None:
+        src_titles = all_titles.copy()
+        random.shuffle(src_titles)
+        src_titles = src_titles[:n]
+    else:
+        # repeat the fixed src for all queries
+        src_titles = [src] * n
+    
+    if dst is None:
+        dst_titles = all_titles.copy()
+        random.shuffle(dst_titles)
+        dst_titles = dst_titles[:n]
+    else:
+        dst_titles = [dst] * n
+
+    results: List[str] = []
+    
+    for i in range(min(n, len(src_titles), len(dst_titles))):
+        s_title = src_titles[i]
+        t_title = dst_titles[i]
+        
+        if s_title == t_title:
+            continue
+        
+        # Create args object for cmd_query
+        query_args = SimpleNamespace(cache=cache, src=s_title, dst=t_title)
+        
+        try:
+            path_part = cmd_query(query_args)
+            output = f"[+] Path ({len(path_part)-1} hops): " + " → ".join(path_part)
+            if path_part:
+                results.append(output)
+        except Exception as e:
+            print(f"Hit error: {e}")
+            pass
+
+    # Write results to file
+    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
+    with open(output_path, "a", encoding="utf-8") as fout:
+        for line in results:
+            fout.write(line + "\n")
+
+    print(f"[+] Found {len(results)} paths out of {n} requested, saved to {output_path}")
+    return results
+
+
+def cmd_sample_set(args):
+    """CLI wrapper for cmd_sample_set"""
+    sample_set(
+        n=args.count,
+        output_path=args.output,
+        cache=args.cache,
+        src=args.src,
+        dst=args.dst
+    )
+
+
 def cmd_sample(args):
     cache = Path(args.cache)
     G, conn = _ensure_cache(cache)
@@ -1090,6 +1174,14 @@ def main():
     ap_sample.add_argument("--cache", required=True)
     ap_sample.add_argument("--count", type=int, default=5)
     ap_sample.set_defaults(func=cmd_sample)
+
+    ap_sample_set = sub.add_parser("sample-set", help="Sample n paths and save to file")
+    ap_sample_set.add_argument("--cache", required=True)
+    ap_sample_set.add_argument("--count", type=int, required=True, help="Number of paths to sample")
+    ap_sample_set.add_argument("--output", required=True, help="Output file path")
+    ap_sample_set.add_argument("--src", help="Fixed source title (random if not specified)")
+    ap_sample_set.add_argument("--dst", help="Fixed destination title (random if not specified)")
+    ap_sample_set.set_defaults(func=cmd_sample_set)
 
     ap_conv = sub.add_parser("convert", help="Convert graph.bin -> graph.nkbg")
     ap_conv.add_argument("--in", dest="infile", required=True, help="graph.bin path")

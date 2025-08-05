@@ -1,0 +1,8 @@
+mwsql==1.0.3
+networkit==11.0
+tqdm==4.66.1
+psutil==5.9.6
+python-graphblas==2023.12.0
+graphblas-algorithms==2023.12.0
+suitesparse-graphblas==7.4.0
+

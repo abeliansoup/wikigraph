@@ -72,15 +72,21 @@ python wikigame_graph_multi.py build \
 ## Query examples
 
 ```bash
-# Shortest path
+# Find the shortest path between src/dst inputs
 python wikigame_graph_multi.py query --cache cache/enwiki-latest \
        --src "Bandsaw" --dst "Taylor_Swift"
 
 # Verify a candidate path
 python wikigame_graph_multi.py verify --cache cache/enwiki-latest --titles Bandsaw,Tape_measure,Distance,Kevin_Bacon
 
-# Sample 5 reachable pairs
-python wikigame_graph_multi.py sample --cache cache/enwiki-latest --count 5
+# Sample 20 optimal paths from randomly selects src/dst pairs
+python wikigame_graph_multi.py sample-set --cache cache/enwiki-latest --count 20 --output samples.txt
+
+# Sample 5 optimal paths from randomly selected srcs to Kevin Bacon
+python wikigame_graph_multi.py sample-set --cache cache/enwiki-latest --count 5 --dst "Kevin_Bacon" --output samples.txt
+
+# Sample 5 optimal paths from Paul_Erdős to randomly selected dsts
+python wikigame_graph_multi.py sample-set --cache cache/enwiki-latest --count 5 --src "Paul_Erdős" --output samples.txt
 ```
 
 ---
