@@ -694,6 +694,83 @@ def _process_chunk(rows, shard_path):
                 f.write(pack(u, v))
     return os.path.basename(shard_path)
 
+def sample_set(n: int, 
+                   output_path: str, 
+                   cache: str = "cache/enwiki-latest", 
+                   src: Optional[str] = None, 
+                   dst: Optional[str] = None) -> List[str]:
+    """Sample up to *n* shortest paths and write them to *output_path*.
+
+    If *src* or *dst* are ``None`` they will be chosen from a full randomly
+    shuffled list of all article titles in the cache. Uses cmd_query from
+    gb_bfs for pathfinding.
+
+    The function returns the list of human-readable path strings that were
+    successfully found and also writes one line per path to the text file
+    located at *output_path*.
+    """    
+    cache_path = Path(cache)
+    _, conn = _ensure_cache(cache_path)
+    cur = conn.cursor()
+
+    # Get all titles and shuffle them for random selection
+    all_titles = [row[0] for row in cur.execute("SELECT title FROM title ORDER BY title")]
+    random.shuffle(all_titles)
+    
+    # Prepare source and destination lists
+    if src is None:
+        src_titles = all_titles.copy()
+        random.shuffle(src_titles)
+        src_titles = src_titles[:n]
+    else:
+        # repeat the fixed src for all queries
+        src_titles = [src] * n
+    
+    if dst is None:
+        dst_titles = all_titles.copy()
+        random.shuffle(dst_titles)
+        dst_titles = dst_titles[:n]
+    else:
+        dst_titles = [dst] * n
+
+    results: List[str] = []
+    
+    for i in range(min(n, len(src_titles), len(dst_titles))):
+        s_title = src_titles[i]
+        t_title = dst_titles[i]
+        
+        if s_title == t_title:
+            continue
+        
+        # Create args object for cmd_query
+        query_args = SimpleNamespace(cache=cache, src=s_title, dst=t_title)
+        
+        try:
+            path_part = cmd_query(query_args)
+            if path_part:
+                output = f"[+] Path ({len(path_part)-1} hops): " + " → ".join(path_part)
+                results.append(output)
+            else:
+                results.append(f"[-] No path found between {s_title} and {t_title}")
+        except Exception as e:
+            print(f"[-] No path found between {s_title} and {t_title}")
+            print(f"Critical error: {e}")
+            pass
+        
+        # Sleep for a minute every 10 rounds for hacky memory use backo0ff
+        if not (i + 1) % 10:
+            print(f"[*] Completed {i+1} queries, sleeping for 60 seconds...")
+            time.sleep(60)
+    
+    # Write results to file
+    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
+    with open(output_path, "a", encoding="utf-8") as fout:
+        for line in results:
+            fout.write(line + "\n")
+
+    print(f"[+] Found {len(results)} paths out of {n} requested, saved to {output_path}")
+    return results
+
 def cmd_build(args):
     """
     Build cache from dumps.
@@ -958,82 +1035,6 @@ def cmd_nk_query(args):
         row = cur.execute("SELECT title FROM title WHERE nid=? LIMIT 1", (nid,)).fetchone()
         titles.append(row[0] if row else f"nid:{nid}")
     print(f"[+] Path ({len(path)-1} hops): " + " -> ".join(titles))
-
-def sample_set(n: int, 
-                   output_path: str, 
-                   cache: str = "cache/enwiki-latest", 
-                   src: Optional[str] = None, 
-                   dst: Optional[str] = None) -> List[str]:
-    """Sample up to *n* shortest paths and write them to *output_path*.
-
-    If *src* or *dst* are ``None`` they will be chosen from a full randomly
-    shuffled list of all article titles in the cache. Uses cmd_query from
-    gb_bfs for pathfinding.
-
-    The function returns the list of human-readable path strings that were
-    successfully found and also writes one line per path to the text file
-    located at *output_path*.
-    """    
-    cache_path = Path(cache)
-    _, conn = _ensure_cache(cache_path)
-    cur = conn.cursor()
-
-    # Get all titles and shuffle them for random selection
-    all_titles = [row[0] for row in cur.execute("SELECT title FROM title ORDER BY title")]
-    random.shuffle(all_titles)
-    
-    # Prepare source and destination lists
-    if src is None:
-        src_titles = all_titles.copy()
-        random.shuffle(src_titles)
-        src_titles = src_titles[:n]
-    else:
-        # repeat the fixed src for all queries
-        src_titles = [src] * n
-    
-    if dst is None:
-        dst_titles = all_titles.copy()
-        random.shuffle(dst_titles)
-        dst_titles = dst_titles[:n]
-    else:
-        dst_titles = [dst] * n
-
-    results: List[str] = []
-    
-    for i in range(min(n, len(src_titles), len(dst_titles))):
-        s_title = src_titles[i]
-        t_title = dst_titles[i]
-        
-        if s_title == t_title:
-            continue
-        
-        # Create args object for cmd_query
-        query_args = SimpleNamespace(cache=cache, src=s_title, dst=t_title)
-        
-        try:
-            path_part = cmd_query(query_args)
-            if path_part:
-                output = f"[+] Path ({len(path_part)-1} hops): " + " → ".join(path_part)
-                results.append(output)
-            else:
-                results.append(f"[-] No path found between {s_title} and {t_title}")
-        except Exception as e:
-            print(f"Critical error: {e}")
-            pass
-        
-    # Sleep for a minute every 10 rounds for hacky memory use backo0ff
-    if (i + 1) % 10 == 0:
-        print(f"[*] Completed {i+1} queries, sleeping for 60 seconds...")
-        time.sleep(60)
-    
-    # Write results to file
-    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
-    with open(output_path, "a", encoding="utf-8") as fout:
-        for line in results:
-            fout.write(line + "\n")
-
-    print(f"[+] Found {len(results)} paths out of {n} requested, saved to {output_path}")
-    return results
 
 
 def cmd_sample_set(args):

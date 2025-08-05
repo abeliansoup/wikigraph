@@ -23,3 +23,57 @@
 [+] Path (3 hops): Leimbach,_Aargau → Rent-to-own → The_Buffalo_News → Statesville_Record_&_Landmark
 [-] No path found between Christopher_Lorenzo and Double-arches
 [+] Path (5 hops): Diane_Eshin_Rizzetto → Nyanaponika_Thera → Berlin → List_of_twin_towns_and_sister_cities_in_Germany → Gmina_Gryfice → Rzęsin
+[+] Path (3 hops): Joe_Davison_(footballer,_born_1897) → National_service → Norway → Chaldean_Catholic_Church
+[+] Path (2 hops): Tattoo → ISSN → MPEG-1
+[+] Path (4 hops): 1,2-Butadiene → Occupational_safety_and_health → Social_class → French_Revolution → Affair_of_the_Diamond_Necklace
+[+] Path (5 hops): Jimmy_Reagan → Benny_Leonard → Joe_Louis → List_of_African-American_visual_artists → List_of_American_artists_before_1900 → Paul_R._Schumann
+[+] Path (5 hops): Colin_Grzanna → Medicine → William_Osler → Galápagos_Islands → List_of_animals_in_the_Galápagos_Islands → Pseudalsophis_occidentalis
+[+] Path (4 hops): Florence_Alice_Lubega → English_language → BBC → List_of_companies_based_in_London → Chesham_Amalgamations
+[+] Path (3 hops): Order-5_hexagonal_tiling_honeycomb → Regular_icosahedron → Absolute_difference → Relative_change
+[+] Path (4 hops): Little_Miss_Muffet → Chambers_Dictionary → Scrabble → IPod → Samsung_YEPP
+[+] Path (3 hops): Siener_van_Rensburg → Second_Boer_War → Ireland → Full_breakfast
+[+] Path (4 hops): Astrocyte → Shanghai → Romania → FC_Dinamo_București → CS_Dinamo_București_(basketball)
+[+] Path (4 hops): Berklee_College_of_Music → Sexual_harassment → Lynching → Western_Highlands_Province → Tambul-Nebilyer_District
+[+] Path (4 hops): Kullu → Female → Legal_status_of_transgender_people → Adrenal_gland → Angiotensin_II_receptor
+[+] Path (3 hops): List_of_personal_coats_of_arms_of_presidents_of_the_United_States → Pelican → DDT → Oxymesterone
+[+] Path (5 hops): Tatra_National_Park,_Slovakia → Stream → Pennsylvania → Heinz → Echuca → George_Bazeley
+[+] Path (3 hops): List_of_University_of_Massachusetts_Amherst_residence_halls → John_F._Kennedy → Rosa_Parks → Duncan_Campbell_(journalist,_born_1944)
+[+] Path (4 hops): Cloud_iridescence → Scientific_American → Alan_Alda → Kevin_Spacey → Keyser_Söze
+[+] Path (4 hops): Krigia_biflora → Taxonomy_(biology) → Rejection_of_evolution_by_religious_groups → C._S._Lewis → Mark_St._Germain
+[+] Path (3 hops): A-flat_clarinet → Italy → Culture_of_Europe → Panhellenic_sanctuary
+[-] No path found between Chengail and Aircraft_Builders_Council
+[+] Path (4 hops): Mike_Sember → Hammond,_Indiana → Pontiac,_Michigan → Lenawee_County,_Michigan → Clinton,_Lenawee_County,_Michigan
+[+] Path (4 hops): Externado_San_José → Greek_alphabet → Pi → Hyperbolic_3-manifold → Hyperbolic_Dehn_surgery
+[+] Path (4 hops): In_It_to_Win_It_(Charlie_Wilson_album) → ITunes_Store → Russian_ruble → Volga_Federal_District → Volzhsky_District
+[+] Path (4 hops): Tinne_Hoff_Kjeldsen → Denmark → Volbeat → Download_Festival → Makethisrelate
+[+] Path (3 hops): Freedom_of_religion_in_Jordan → Baptists → Windsor,_Ontario → Cleveland
+[+] Path (4 hops): Lingxia,_Jilin → Inner_Mongolia → Dragon → List_of_dragons_in_popular_culture → The_Legend_of_Dragoon
+[+] Path (5 hops): Salama_ibn_al-Akwa' → Islam → Vanderbilt_University → James_Madison_University → MasterChef → MasterChef_Thailand_season_2
+[+] Path (4 hops): Table_of_years_in_literature → 1767_in_literature → November_26 → Vreni_Schneider → Alpine_skiing_at_the_1992_Winter_Olympics_–_Women's_super-G
+[+] Path (5 hops): Van_Buren_Township,_Brown_County,_Indiana → Brown_County,_Indiana → Presbyterianism → Otago → Lawrence,_New_Zealand → Isaac_Richards_(bishop)
+[+] Path (5 hops): Parti_des_déshérités_de_Madagascar → Malagasy_Uprising → Death_flights → Lists_of_deaths_by_year → Deaths_in_June_1986 → Archie_Wood
+[+] Path (5 hops): Fairchild_C-119_Flying_Boxcar → Norway → Baptism → List_of_most_popular_given_names → Vega_(name) → Veiga_(disambiguation)
+[+] Path (5 hops): Snowboard_(meteorology) → Rain_gauge → England → Runcorn → Jimmy_McNulty_(footballer) → Stephen_Roberts_(footballer,_born_1980)
+[+] Path (4 hops): Mount_Roskill → Suburb → Milwaukee → Sheboygan_County,_Wisconsin → Cascade,_Wisconsin
+[+] Path (4 hops): Protected_areas_of_Quebec → Quebec → Cultural_assimilation → Islamic_culture → Mokkar_Boli_Khela
+[+] Path (4 hops): Zachary_Taylor → List_of_unsolved_deaths → Milan → Olimpia_Milano → 1992–93_FIBA_Korać_Cup
+[+] Path (4 hops): List_of_former_primary_state_highways_in_Virginia_(Culpeper_and_Northern_Virginia_Districts) → Byte → Romanian_language → Inna → Vocea_României_season_1
+[+] Path (4 hops): Lyoluminescence → Spice → Angelica_archangelica → 12th_century → List_of_state_leaders_in_the_11th_century
+[+] Path (3 hops): Bell,_Book_and_Candle → Christmas_Eve → Easter → Modern_award
+[-] No path found between English_philology and Gov._Spaulding
+[-] No path found between Parasangada_Gendethimma and Polynema_(disambiguation)
+[+] Path (4 hops): David_Gay_(British_Army_officer) → Italian_campaign_(World_War_II) → Vienna → Neubau → Mariahilfer_Straße
+[+] Path (4 hops): H._Carl_Andersen → United_States_House_of_Representatives → History_of_the_United_States → History_of_Luxembourg → 1st_Panzer_Division_(Wehrmacht)
+[+] Path (4 hops): Conway_chained_arrow_notation → Carl_Sagan → El_Paso,_Texas → Mobile,_Alabama → Hayneville,_Alabama
+[+] Path (5 hops): 25th_Luna_Awards → Eddie_Garcia → Shooting_sports → Drexel_University → Moravian_University → Edmund_Alexander_de_Schweinitz
+[+] Path (5 hops): Sentinel_surveillance → Public_health → England → Guy_Fawkes → Robert_Keyes → Robert_Keyes_(disambiguation)
+[+] Path (4 hops): Municipality_of_Loška_Dolina → Slovenia → Minestrone → Ramen → Jjolmyeon
+[+] Path (4 hops): Department_of_Cajamarca → Geography → Glossary_of_botanical_terms → Eucomis → Eucomis_amaryllidifolia
+[-] No path found between Haim_Yehuda and Cover_(military)
+[+] Path (3 hops): Horror_(Garo) → Leatherface → Dissociative_identity_disorder → Obsessive–compulsive_disorder
+[-] No path found between The_Promise_(Tracy_Chapman_song) and K.A.M.
+[+] Path (5 hops): José_Manuel_Yanguas → Spain → Spanish–American_War → Cruiser → Portuguese_ironclad_Vasco_da_Gama → NRP_Douro_(1913)
+[+] Path (4 hops): Lichens_(musician) → Sound_art → Art_Deco → Democratic_Republic_of_the_Congo → Nduma_Defense_of_Congo-Renovated
+[+] Path (5 hops): Minister_for_Industrial_Relations_(Victoria) → Minister_for_Treaty_and_First_Peoples → Indigenous_rock → Brazilian_rock → Violeta_de_Outono → The_Early_Years_(Violeta_de_Outono_album)
+[+] Path (5 hops): Forever_(Diddy_album) → Music_genre → Lyrics → Henry_Howard,_Earl_of_Surrey → Thetford_Priory → John_Bramis
+[+] Path (5 hops): Acad._Open_Appl._Environ._Sci._Res._J. → ISO_4 → ISO_20121 → Sebastian_Coe → Stanley_Park → Babine_Lake_Marine_Provincial_Park

@@ -31,7 +31,7 @@ MAIN_NS = 0
 
 # Global logging configuration
 ENABLE_LOGGING = False
-LOG_LEVEL = logging.INFO
+LOG_LEVEL = logging.DEBUG
 
 # Configure logging
 def setup_logging():
@@ -412,7 +412,7 @@ def bfs_shortest_path(A, AT, src: int, dst: int, max_depth: int | None = None):
 
     if not visited[dst].value:
         logger.info(f"[end] no path; levels discovered={k}; visited={visited.nvals}")
-        print("[!] No path found.")
+        logger.info("[!] No path found.")
         return []
 
     # Fallback: we discovered dst earlier but didn’t early-exit
