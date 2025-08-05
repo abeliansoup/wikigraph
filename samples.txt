@@ -89,3 +89,34 @@
 [+] Path (4 hops): Honesty_Day → Google → Tokyo → Junichiro_Koizumi → Chikage_Oogi
 [+] Path (3 hops): Air_Tractor_AT-500_family → United_States → Hamburger → Processed_cheese
 [+] Path (4 hops): History_of_the_Jews_in_Taiwan → History_of_the_Jews_in_Egypt → Egypt_in_World_War_II → Juno_Beach → Courseulles-sur-Mer
+[+] Path (5 hops): Swimming_at_the_1990_Asian_Games → China → List_of_countries_by_total_fertility_rate → Demographics_of_Iran → Fereydunshahr → Poshtkuh-e_Mugui_Rural_District
+[+] Path (5 hops): Chhajjian → Urdu → Greek_language → Transport_in_Greece → Katakolo → Katakolo_railway_station
+[+] Path (4 hops): Dilshan_Vitharana → Cricket → World_War_II → Yazidism → Nasirdîn
+[+] Path (4 hops): Fintan_of_Clonenagh → Monk → Kalaripayattu → Cinema_of_India → Krish_Jagarlamudi
+[+] Path (4 hops): Nérée_Arsenault → Canadians → Catholic_Church → Pope_Agapetus_II → Roman_Catholic_Diocese_of_Termoli-Larino
+[+] Path (5 hops): Mayfield_(village),_New_York → Marriage → Baptism → De_Wit_(surname) → Blanchard → William_Isaac_Blanchard
+[+] Path (3 hops): Prince_of_Persia:_The_Two_Thrones → Corey_May → Batman → List_of_Marvel_Comics_characters:_C
+[+] Path (5 hops): List_of_Utah_State_Routes_deleted_in_1969 → Arizona → Native_Americans_in_the_United_States → House_of_Burgesses → List_of_members_of_the_Virginia_House_of_Burgesses → Roger_Delk
+[+] Path (4 hops): My_Six_Loves → Cliff_Robertson → World_Trade_Center_(1973–2001) → Suning_Plaza,_Zhenjiang → Kaitai_Bridge
+[+] Path (3 hops): Tulsa_Riverside_Airport → United_States_Geological_Survey → United_States_Congress → 47th_United_States_Congress
+[+] Path (5 hops): Pierre_Jean_Robiquet → Egypt → 1964_Summer_Olympics → 1956_Summer_Olympics → Iran_at_the_1956_Summer_Olympics → Lee_Sang-gyun
+[+] Path (4 hops): Giant_guitarfish → Philippines → South_Ossetia → Foreign_relations_of_Georgia → Georgia–Netherlands_relations
+[-] No path found between Nikolaev,_Aleksey and Archdeacon_Missioner_in_Coventry
+[+] Path (5 hops): Missouri_Fur_Company → Indigenous_peoples_of_the_Americas → List_of_contemporary_ethnic_groups → Arunachal_Pradesh → Upper_Subansiri_district → Nacho_Assembly_constituency
+[+] Path (4 hops): Grote_(publisher) → Publishing → Star_Wars → The_X-Files_(franchise) → Siren_(Millennium)
+[+] Path (4 hops): 2016_Alaska_Senate_election → Independent_politician → Aston_Villa_F.C. → Olympique_Lyonnais → Lyon-La_Duchère
+[+] Path (5 hops): List_of_United_States_Supreme_Court_cases,_volume_422 → Supreme_Court_of_the_United_States → American_English → Singapore_English → New_Ways_of_Analyzing_Variation → New_Ways_of_Analyzing_Variation_Asia-Pacific
+[+] Path (4 hops): High_Violet → BBC_Sport → 1988_Summer_Olympics → Kristin_Otto → Svetlana_Chimrova
+[+] Path (3 hops): List_of_Lost_Tapes_episodes → Baltic_Sea → Viking_Line → Star_Pisces
+[+] Path (5 hops): Grushino → Time_zone → United_Kingdom → Paul_Oakenfold → Not_Over_Yet_(Grace_song) → Twin_Flames_(song)
+[+] Path (5 hops): Terrence_Lanni → MGM_Resorts_International → Bristol → Bristol_City_F.C. → Women's_FA_Cup → Lynda_Hale
+[+] Path (4 hops): Poleth_Méndes → 2024_Summer_Paralympics → Namibian_Broadcasting_Corporation → Barney_&_Friends → Bob_West
+[+] Path (4 hops): Robert_James_Lees → Etta_Wriedt → Glasgow → St_Mary's_Cathedral,_Glasgow → Algernon_Seymour_(priest)
+[+] Path (4 hops): List_of_postal_codes_of_Canada:_R → University_of_Manitoba → Theology → Paganism → Enji_(deity)
+[+] Path (4 hops): Ga'aton_River → Beersheba → Wrestling → Mil_Máscaras → Mr._Wrestling_II
+[+] Path (6 hops): Ella_Havelka → Swan_Lake → Loom_(video_game) → Virtual_machine → Comparison_of_platform_virtualization_software → SVISTA → TwoOStwo
+[+] Path (7 hops): The_Fear,_the_Fear,_the_Fear → Violin → Acoustic_resonance → Ultrasound → Arctiinae → List_of_arctiine_genera:_A–M → Eilema → Eilema_phaeocraspis
+[+] Path (5 hops): Sparx_(American_band) → United_States → Electoral_college → 1994_South_African_general_election → List_of_National_Assembly_members_of_the_22nd_Parliament_of_South_Africa → Nomasonto_Phakathi
+[+] Path (4 hops): Drum_Corps_Europe → United_Kingdom → Mauritius → Mass_media_in_Mauritius → List_of_magazines_in_Mauritius
+[+] Path (4 hops): 1984_Alpine_Skiing_World_Cup_–_Women's_giant_slalom_and_super-G → Italy → 2006_Winter_Olympics → RAI → Fuoriclasse
+[+] Path (4 hops): Homestead_Records_(1920s) → United_States → Elvis_Presley → Patsy_Cline → Country_Music_(miniseries)

@@ -538,7 +538,7 @@ def cmd_query(args):
             print("[!] Could not resolve one or both titles."); return
         path = bfs_shortest_path(A, AT, src, dst)
         if not path:
-            print(f"[!] No path found between {args.src} and {args.dst}"); return
+            print(f"[!] No path found between {args.src} and {args.  dst}"); return
         titles = [nid_to_title(cur, nid) for nid in path]
         print(f"[+] Path ({len(path)-1} hops): " + " -> ".join(titles))
         if len(titles) < 100:
