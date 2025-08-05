@@ -1,6 +1,6 @@
 # WikiGraph Path Visualizations
 
-This README contains individual mermaid diagrams for each Wikipedia path from samples.txt.
+This file contains individual mermaid diagrams for each Wikipedia path from samples.txt.
 Each path flows diagonally from top-left to bottom-right.
 Each node has three arrows: one central arrow leading to the next node, and two side arrows leading to transparent endpoints.
 
@@ -152,7 +152,7 @@ graph TD
     N2["Tropical cyclone"]
     N3["List of historical tropical cyclone names"]
     N4["List of named storms"]
-    N5["List of named storms C"]
+    N5["List of named storms (C)"]
     N6["List of storms named Colleen"]
     N0 --> N1
     N0 -.-> D0L
@@ -276,10 +276,10 @@ graph TD
 
 ```mermaid
 graph TD
-    N0["Carlos Varela wrestler"]
+    N0["Carlos Varela (wrestler)"]
     N1["Atlanta"]
     N2["Cartoon Network"]
-    N3["Primal TV series"]
+    N3["Primal (TV series)"]
     N0 --> N1
     N0 -.-> D0L
     N0 -.-> D0R
@@ -399,7 +399,7 @@ graph TD
 graph TD
     N0["People's Planning in Kerala"]
     N1["Constitution of India"]
-    N2["George Robinson 1st Marquess of Ripon"]
+    N2["George Robinson, 1st Marquess of Ripon"]
     N3["North Yorkshire"]
     N4["Embsay and Bolton Abbey Steam Railway"]
     N5["Grassington & Threshfield railway station"]
@@ -572,7 +572,7 @@ graph TD
     N0["Odense Boldklub"]
     N1["Scotland"]
     N2["Manx language"]
-    N3["Patrick given name"]
+    N3["Patrick (given name)"]
     N4["Patrizio"]
     N5["Patrizio Di Renzo"]
     N0 --> N1
@@ -621,7 +621,7 @@ graph TD
 ```mermaid
 graph TD
     N0["Avenue Bar shooting"]
-    N1["Workers' Party Ireland"]
+    N1["Workers' Party (Ireland)"]
     N2["Eastern Bloc"]
     N3["Great Construction Projects of Communism"]
     N0 --> N1
@@ -733,7 +733,7 @@ graph TD
 
 ```mermaid
 graph TD
-    N0["Sorcerer Dungeons & Dragons"]
+    N0["Sorcerer (Dungeons & Dragons)"]
     N1["Anarchism"]
     N2["Voltairine de Cleyre"]
     N3["Cooper Union"]
@@ -940,7 +940,7 @@ graph TD
 
 ```mermaid
 graph TD
-    N0["Leimbach Aargau"]
+    N0["Leimbach, Aargau"]
     N1["Rent-to-own"]
     N2["The Buffalo News"]
     N3["Statesville Record & Landmark"]
@@ -1026,7 +1026,7 @@ graph TD
 
 ```mermaid
 graph TD
-    N0["Joe Davison footballer born 1897"]
+    N0["Joe Davison (footballer, born 1897)"]
     N1["National service"]
     N2["Norway"]
     N3["Chaldean Catholic Church"]
@@ -1088,7 +1088,7 @@ graph TD
 
 ```mermaid
 graph TD
-    N0["12-Butadiene"]
+    N0["1,2-Butadiene"]
     N1["Occupational safety and health"]
     N2["Social class"]
     N3["French Revolution"]
@@ -1393,7 +1393,7 @@ graph TD
     N1["Shanghai"]
     N2["Romania"]
     N3["FC Dinamo București"]
-    N4["CS Dinamo București basketball"]
+    N4["CS Dinamo București (basketball)"]
     N0 --> N1
     N0 -.-> D0L
     N0 -.-> D0R
@@ -1553,7 +1553,7 @@ graph TD
 
 ```mermaid
 graph TD
-    N0["Tatra National Park Slovakia"]
+    N0["Tatra National Park, Slovakia"]
     N1["Stream"]
     N2["Pennsylvania"]
     N3["Heinz"]
@@ -1607,7 +1607,7 @@ graph TD
     N0["List of University of Massachusetts Amherst residence halls"]
     N1["John F. Kennedy"]
     N2["Rosa Parks"]
-    N3["Duncan Campbell journalist born 1944"]
+    N3["Duncan Campbell (journalist, born 1944)"]
     N0 --> N1
     N0 -.-> D0L
     N0 -.-> D0R
@@ -1683,7 +1683,7 @@ graph TD
 ```mermaid
 graph TD
     N0["Krigia biflora"]
-    N1["Taxonomy biology"]
+    N1["Taxonomy (biology)"]
     N2["Rejection of evolution by religious groups"]
     N3["C. S. Lewis"]
     N4["Mark St. Germain"]
@@ -1761,10 +1761,10 @@ graph TD
 ```mermaid
 graph TD
     N0["Mike Sember"]
-    N1["Hammond Indiana"]
-    N2["Pontiac Michigan"]
-    N3["Lenawee County Michigan"]
-    N4["Clinton Lenawee County Michigan"]
+    N1["Hammond, Indiana"]
+    N2["Pontiac, Michigan"]
+    N3["Lenawee County, Michigan"]
+    N4["Clinton, Lenawee County, Michigan"]
     N0 --> N1
     N0 -.-> D0L
     N0 -.-> D0R
@@ -1846,7 +1846,7 @@ graph TD
 
 ```mermaid
 graph TD
-    N0["In It to Win It Charlie Wilson album"]
+    N0["In It to Win It (Charlie Wilson album)"]
     N1["ITunes Store"]
     N2["Russian ruble"]
     N3["Volga Federal District"]
@@ -1934,7 +1934,7 @@ graph TD
 graph TD
     N0["Freedom of religion in Jordan"]
     N1["Baptists"]
-    N2["Windsor Ontario"]
+    N2["Windsor, Ontario"]
     N3["Cleveland"]
     N0 --> N1
     N0 -.-> D0L
@@ -1967,7 +1967,7 @@ graph TD
 
 ```mermaid
 graph TD
-    N0["Lingxia Jilin"]
+    N0["Lingxia, Jilin"]
     N1["Inner Mongolia"]
     N2["Dragon"]
     N3["List of dragons in popular culture"]
@@ -2104,12 +2104,12 @@ graph TD
 
 ```mermaid
 graph TD
-    N0["Van Buren Township Brown County Indiana"]
-    N1["Brown County Indiana"]
+    N0["Van Buren Township, Brown County, Indiana"]
+    N1["Brown County, Indiana"]
     N2["Presbyterianism"]
     N3["Otago"]
-    N4["Lawrence New Zealand"]
-    N5["Isaac Richards bishop"]
+    N4["Lawrence, New Zealand"]
+    N5["Isaac Richards (bishop)"]
     N0 --> N1
     N0 -.-> D0L
     N0 -.-> D0R
@@ -2210,8 +2210,8 @@ graph TD
     N1["Norway"]
     N2["Baptism"]
     N3["List of most popular given names"]
-    N4["Vega name"]
-    N5["Veiga disambiguation"]
+    N4["Vega (name)"]
+    N5["Veiga (disambiguation)"]
     N0 --> N1
     N0 -.-> D0L
     N0 -.-> D0R
@@ -2257,12 +2257,12 @@ graph TD
 
 ```mermaid
 graph TD
-    N0["Snowboard meteorology"]
+    N0["Snowboard (meteorology)"]
     N1["Rain gauge"]
     N2["England"]
     N3["Runcorn"]
-    N4["Jimmy McNulty footballer"]
-    N5["Stephen Roberts footballer born 1980"]
+    N4["Jimmy McNulty (footballer)"]
+    N5["Stephen Roberts (footballer, born 1980)"]
     N0 --> N1
     N0 -.-> D0L
     N0 -.-> D0R
@@ -2311,8 +2311,8 @@ graph TD
     N0["Mount Roskill"]
     N1["Suburb"]
     N2["Milwaukee"]
-    N3["Sheboygan County Wisconsin"]
-    N4["Cascade Wisconsin"]
+    N3["Sheboygan County, Wisconsin"]
+    N4["Cascade, Wisconsin"]
     N0 --> N1
     N0 -.-> D0L
     N0 -.-> D0R
@@ -2437,7 +2437,7 @@ graph TD
 
 ```mermaid
 graph TD
-    N0["List of former primary state highways in Virginia Culpeper and Northern Virginia Districts"]
+    N0["List of former primary state highways in Virginia (Culpeper and Northern Virginia Districts)"]
     N1["Byte"]
     N2["Romanian language"]
     N3["Inna"]
@@ -2523,7 +2523,7 @@ graph TD
 
 ```mermaid
 graph TD
-    N0["Bell Book and Candle"]
+    N0["Bell, Book and Candle"]
     N1["Christmas Eve"]
     N2["Easter"]
     N3["Modern award"]
@@ -2558,8 +2558,8 @@ graph TD
 
 ```mermaid
 graph TD
-    N0["David Gay British Army officer"]
-    N1["Italian campaign World War II"]
+    N0["David Gay (British Army officer)"]
+    N1["Italian campaign (World War II)"]
     N2["Vienna"]
     N3["Neubau"]
     N4["Mariahilfer Straße"]
@@ -2605,7 +2605,7 @@ graph TD
     N1["United States House of Representatives"]
     N2["History of the United States"]
     N3["History of Luxembourg"]
-    N4["1st Panzer Division Wehrmacht"]
+    N4["1st Panzer Division (Wehrmacht)"]
     N0 --> N1
     N0 -.-> D0L
     N0 -.-> D0R
@@ -2646,9 +2646,9 @@ graph TD
 graph TD
     N0["Conway chained arrow notation"]
     N1["Carl Sagan"]
-    N2["El Paso Texas"]
-    N3["Mobile Alabama"]
-    N4["Hayneville Alabama"]
+    N2["El Paso, Texas"]
+    N3["Mobile, Alabama"]
+    N4["Hayneville, Alabama"]
     N0 --> N1
     N0 -.-> D0L
     N0 -.-> D0R
@@ -2743,7 +2743,7 @@ graph TD
     N2["England"]
     N3["Guy Fawkes"]
     N4["Robert Keyes"]
-    N5["Robert Keyes disambiguation"]
+    N5["Robert Keyes (disambiguation)"]
     N0 --> N1
     N0 -.-> D0L
     N0 -.-> D0R
@@ -2875,7 +2875,7 @@ graph TD
 
 ```mermaid
 graph TD
-    N0["Horror Garo"]
+    N0["Horror (Garo)"]
     N1["Leatherface"]
     N2["Dissociative identity disorder"]
     N3["Obsessive–compulsive disorder"]
@@ -2915,7 +2915,7 @@ graph TD
     N2["Spanish–American War"]
     N3["Cruiser"]
     N4["Portuguese ironclad Vasco da Gama"]
-    N5["NRP Douro 1913"]
+    N5["NRP Douro (1913)"]
     N0 --> N1
     N0 -.-> D0L
     N0 -.-> D0R
@@ -2961,7 +2961,7 @@ graph TD
 
 ```mermaid
 graph TD
-    N0["Lichens musician"]
+    N0["Lichens (musician)"]
     N1["Sound art"]
     N2["Art Deco"]
     N3["Democratic Republic of the Congo"]
@@ -3004,12 +3004,12 @@ graph TD
 
 ```mermaid
 graph TD
-    N0["Minister for Industrial Relations Victoria"]
+    N0["Minister for Industrial Relations (Victoria)"]
     N1["Minister for Treaty and First Peoples"]
     N2["Indigenous rock"]
     N3["Brazilian rock"]
     N4["Violeta de Outono"]
-    N5["The Early Years Violeta de Outono album"]
+    N5["The Early Years (Violeta de Outono album)"]
     N0 --> N1
     N0 -.-> D0L
     N0 -.-> D0R
@@ -3055,10 +3055,10 @@ graph TD
 
 ```mermaid
 graph TD
-    N0["Forever Diddy album"]
+    N0["Forever (Diddy album)"]
     N1["Music genre"]
     N2["Lyrics"]
-    N3["Henry Howard Earl of Surrey"]
+    N3["Henry Howard, Earl of Surrey"]
     N4["Thetford Priory"]
     N5["John Bramis"]
     N0 --> N1
@@ -3245,7 +3245,7 @@ graph TD
 graph TD
     N0["Joshua"]
     N1["Catholic Total Abstinence Union Fountain"]
-    N2["John Carroll archbishop of Baltimore"]
+    N2["John Carroll (archbishop of Baltimore)"]
     N3["Peter Henry Lemke"]
     N0 --> N1
     N0 -.-> D0L
@@ -3321,8 +3321,8 @@ graph TD
 
 ```mermaid
 graph TD
-    N0["John Phiri politician"]
-    N1["Ministry of Local Government Zambia"]
+    N0["John Phiri (politician)"]
+    N1["Ministry of Local Government (Zambia)"]
     N2["Kenneth Kaunda"]
     N3["Steve Biko"]
     N4["Peter Gabriel"]
@@ -3372,11 +3372,11 @@ graph TD
 
 ```mermaid
 graph TD
-    N0["Daeseongsan Gangwon"]
-    N1["Gangwon Province South Korea"]
+    N0["Daeseongsan (Gangwon)"]
+    N1["Gangwon Province, South Korea"]
     N2["Seaside resort"]
     N3["Viña del Mar"]
-    N4["Santiago commune"]
+    N4["Santiago (commune)"]
     N5["Alejandra Placencia"]
     N0 --> N1
     N0 -.-> D0L
@@ -3424,8 +3424,8 @@ graph TD
 ```mermaid
 graph TD
     N0["Thomas Souverbie"]
-    N1["Pau Pyrénées-Atlantiques"]
-    N2["Washington D.C."]
+    N1["Pau, Pyrénées-Atlantiques"]
+    N2["Washington, D.C."]
     N3["Article One of the United States Constitution"]
     N4["North American Co. v. SEC"]
     N0 --> N1
@@ -3861,10 +3861,10 @@ graph TD
 
 ```mermaid
 graph TD
-    N0["Mayfield village New York"]
+    N0["Mayfield (village), New York"]
     N1["Marriage"]
     N2["Baptism"]
-    N3["De Wit surname"]
+    N3["De Wit (surname)"]
     N4["Blanchard"]
     N5["William Isaac Blanchard"]
     N0 --> N1
@@ -4000,8 +4000,8 @@ graph TD
 graph TD
     N0["My Six Loves"]
     N1["Cliff Robertson"]
-    N2["World Trade Center 1973–2001"]
-    N3["Suning Plaza Zhenjiang"]
+    N2["World Trade Center (1973–2001)"]
+    N3["Suning Plaza, Zhenjiang"]
     N4["Kaitai Bridge"]
     N0 --> N1
     N0 -.-> D0L
@@ -4221,11 +4221,11 @@ graph TD
 
 ```mermaid
 graph TD
-    N0["Grote publisher"]
+    N0["Grote (publisher)"]
     N1["Publishing"]
     N2["Star Wars"]
-    N3["The X-Files franchise"]
-    N4["Siren Millennium"]
+    N3["The X-Files (franchise)"]
+    N4["Siren (Millennium)"]
     N0 --> N1
     N0 -.-> D0L
     N0 -.-> D0R
@@ -4307,7 +4307,7 @@ graph TD
 
 ```mermaid
 graph TD
-    N0["List of United States Supreme Court cases volume 422"]
+    N0["List of United States Supreme Court cases, volume 422"]
     N1["Supreme Court of the United States"]
     N2["American English"]
     N3["Singapore English"]
@@ -4440,8 +4440,8 @@ graph TD
     N1["Time zone"]
     N2["United Kingdom"]
     N3["Paul Oakenfold"]
-    N4["Not Over Yet Grace song"]
-    N5["Twin Flames song"]
+    N4["Not Over Yet (Grace song)"]
+    N5["Twin Flames (song)"]
     N0 --> N1
     N0 -.-> D0L
     N0 -.-> D0R
@@ -4584,8 +4584,8 @@ graph TD
     N0["Robert James Lees"]
     N1["Etta Wriedt"]
     N2["Glasgow"]
-    N3["St Mary's Cathedral Glasgow"]
-    N4["Algernon Seymour priest"]
+    N3["St Mary's Cathedral, Glasgow"]
+    N4["Algernon Seymour (priest)"]
     N0 --> N1
     N0 -.-> D0L
     N0 -.-> D0R
@@ -4628,7 +4628,7 @@ graph TD
     N1["University of Manitoba"]
     N2["Theology"]
     N3["Paganism"]
-    N4["Enji deity"]
+    N4["Enji (deity)"]
     N0 --> N1
     N0 -.-> D0L
     N0 -.-> D0R
@@ -4712,7 +4712,7 @@ graph TD
 graph TD
     N0["Ella Havelka"]
     N1["Swan Lake"]
-    N2["Loom video game"]
+    N2["Loom (video game)"]
     N3["Virtual machine"]
     N4["Comparison of platform virtualization software"]
     N5["SVISTA"]
@@ -4769,7 +4769,7 @@ graph TD
 
 ```mermaid
 graph TD
-    N0["The Fear the Fear the Fear"]
+    N0["The Fear, the Fear, the Fear"]
     N1["Violin"]
     N2["Acoustic resonance"]
     N3["Ultrasound"]
@@ -4836,7 +4836,7 @@ graph TD
 
 ```mermaid
 graph TD
-    N0["Sparx American band"]
+    N0["Sparx (American band)"]
     N1["United States"]
     N2["Electoral college"]
     N3["1994 South African general election"]
@@ -4973,11 +4973,11 @@ graph TD
 
 ```mermaid
 graph TD
-    N0["Homestead Records 1920s"]
+    N0["Homestead Records (1920s)"]
     N1["United States"]
     N2["Elvis Presley"]
     N3["Patsy Cline"]
-    N4["Country Music miniseries"]
+    N4["Country Music (miniseries)"]
     N0 --> N1
     N0 -.-> D0L
     N0 -.-> D0R

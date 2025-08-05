@@ -48,7 +48,7 @@ def create_mermaid_diagram(hops: int, nodes: List[str]) -> str:
     # Add nodes for this path
     for node_idx, node in enumerate(nodes):
         node_id = f"N{node_idx}"
-        clean_node_name = node.replace("_", " ").replace("(", "").replace(")", "").replace(",", "")
+        clean_node_name = node.replace("_", " ")
         
         # Truncate very long node names
         if len(clean_node_name) > 100:
