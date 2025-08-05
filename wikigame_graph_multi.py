@@ -698,7 +698,8 @@ def sample_set(n: int,
                    output_path: str, 
                    cache: str = "cache/enwiki-latest", 
                    src: Optional[str] = None, 
-                   dst: Optional[str] = None) -> List[str]:
+                   dst: Optional[str] = None,
+                   backoff: int=120) -> List[str]:
     """Sample up to *n* shortest paths and write them to *output_path*.
 
     If *src* or *dst* are ``None`` they will be chosen from a full randomly
@@ -754,8 +755,8 @@ def sample_set(n: int,
                 results.append(f"[-] No path found between {s_title} and {t_title}")
         except Exception as e:
             # print(f"[-] No path found between {s_title} and {t_title}")
-            print(f"Critical error: {e}. 60s timeout...")
-            time.sleep(60)
+            print(f"Critical error: {e}. {backoff}s timeout...")
+            time.sleep(backoff)
             pass
 
     # Write results to file
@@ -1040,7 +1041,8 @@ def cmd_sample_set(args):
         output_path=args.output,
         cache=args.cache,
         src=args.src,
-        dst=args.dst
+        dst=args.dst,
+        backoff=args.backoff
     )
 
 
@@ -1192,6 +1194,7 @@ def main():
     ap_sample_set.add_argument("--output", required=True, help="Output file path")
     ap_sample_set.add_argument("--src", help="Fixed source title (random if not specified)")
     ap_sample_set.add_argument("--dst", help="Fixed destination title (random if not specified)")
+    ap_sample_set.add_argument("--backoff", type=int, help="Seconds to sleep between failed attempts (120s if not specified)")
     ap_sample_set.set_defaults(func=cmd_sample_set)
 
     ap_conv = sub.add_parser("convert", help="Convert graph.bin -> graph.nkbg")
