@@ -1011,11 +1011,14 @@ def sample_set(n: int,
         
         try:
             path_part = cmd_query(query_args)
-            output = f"[+] Path ({len(path_part)-1} hops): " + " → ".join(path_part)
             if path_part:
+                output = f"[+] Path ({len(path_part)-1} hops): " + " → ".join(path_part)
                 results.append(output)
+            else:
+                results.append(f"[-] No path found between {s_title} and {t_title}")
         except Exception as e:
-            print(f"Hit error: {e}")
+            print(f"[-] No path found between {s_title} and {t_title}")
+            # print(f"Hit error: {e}")
             pass
 
     # Write results to file
