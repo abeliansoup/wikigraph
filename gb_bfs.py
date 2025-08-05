@@ -361,6 +361,7 @@ def bfs_shortest_path(A, AT, src: int, dst: int, max_depth: int | None = None):
         # Heuristic: estimate work = sum(outdeg[u] for u in frontier)
         f_int = frontier.dup(dtype=outdeg.dtype)
         work  = outdeg.ewise_mult(f_int, binary.times).reduce(binary.plus).new().value
+        work = work if work is not None else 0
         use_pull = (AT is not None) and (work > rem_edges // 14)
 
         # Raw expansions just to log parity
