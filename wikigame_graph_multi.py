@@ -753,7 +753,7 @@ def sample_set(n: int,
             else:
                 results.append(f"[-] No path found between {s_title} and {t_title}")
         except Exception as e:
-            print(f"[-] No path found between {s_title} and {t_title}")
+            # print(f"[-] No path found between {s_title} and {t_title}")
             print(f"Critical error: {e}")
             pass
         
