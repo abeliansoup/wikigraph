@@ -11,3 +11,15 @@
 [+] Path (4 hops): Hardik_Abhinandan → Gujarati_language → Manchester → Burnley → Guy_Fawkes_Night
 [+] Path (3 hops): Masoud_Keshmiri → Iranian_peoples → Yazidism → Religion_in_the_Netherlands
 [+] Path (4 hops): Mária_Gulácsy → Hungary → Unincorporated_area → Karlskrona → Juan_Flaco
+[+] Path (5 hops): Odense_Boldklub → Scotland → Manx_language → Patrick_(given_name) → Patrizio → Patrizio_Di_Renzo
+[+] Path (3 hops): Avenue_Bar_shooting → Workers'_Party_(Ireland) → Eastern_Bloc → Great_Construction_Projects_of_Communism
+[+] Path (3 hops): Turkish_lira → Sultanate_of_Rum → Uzbek_language → Khorazm_Region
+[+] Path (4 hops): Visual_arts_in_Israel → Neo_Geo → Sega → Sports_Interactive → Football_Manager_2014
+[+] Path (4 hops): Sorcerer_(Dungeons_&_Dragons) → Anarchism → Voltairine_de_Cleyre → Cooper_Union → Nader_Tehrani
+[+] Path (4 hops): Krassimir_Ivandjiiski → Antisemitism → Mexico_City → Hyderabad → Dr._B.R._Ambedkar_Open_University
+[+] Path (4 hops): Panzanella → Olivier_salad → French_language → Transport_in_France → Trams_in_France
+[+] Path (4 hops): Sakacin → ISBN → United_States → College_football → Touchdown
+[+] Path (3 hops): Gal_Mekel → COVID-19_lockdowns_in_Italy → Impact_of_the_COVID-19_pandemic_on_the_music_industry → Notes_on_a_Conditional_Form
+[+] Path (3 hops): Leimbach,_Aargau → Rent-to-own → The_Buffalo_News → Statesville_Record_&_Landmark
+[-] No path found between Christopher_Lorenzo and Double-arches
+[+] Path (5 hops): Diane_Eshin_Rizzetto → Nyanaponika_Thera → Berlin → List_of_twin_towns_and_sister_cities_in_Germany → Gmina_Gryfice → Rzęsin

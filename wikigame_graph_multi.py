@@ -32,6 +32,7 @@ import os
 import io
 import sys
 import math
+import time
 import json
 import pickle
 import struct
@@ -1017,10 +1018,14 @@ def sample_set(n: int,
             else:
                 results.append(f"[-] No path found between {s_title} and {t_title}")
         except Exception as e:
-            print(f"[-] No path found between {s_title} and {t_title}")
-            # print(f"Hit error: {e}")
+            print(f"Critical error: {e}")
             pass
-
+        
+    # Sleep for a minute every 10 rounds for hacky memory use backo0ff
+    if (i + 1) % 10 == 0:
+        print(f"[*] Completed {i+1} queries, sleeping for 60 seconds...")
+        time.sleep(60)
+    
     # Write results to file
     Path(output_path).parent.mkdir(parents=True, exist_ok=True)
     with open(output_path, "a", encoding="utf-8") as fout:
@@ -1153,6 +1158,12 @@ def main():
     ap_query.add_argument("--src", required=True, help="Title (use underscores as in DB)")
     ap_query.add_argument("--dst", required=True)
     ap_query.set_defaults(func=cmd_query)
+
+    ap_query = sub.add_parser("nk_query", help="Query shortest path from cache")
+    ap_query.add_argument("--cache", required=True)
+    ap_query.add_argument("--src", required=True, help="Title (use underscores as in DB)")
+    ap_query.add_argument("--dst", required=True)
+    ap_query.set_defaults(func=cmd_nk_query)
 
     ap_verify = sub.add_parser("verify", help="Verify that a given path is valid")
     ap_verify.add_argument("--cache", required=True)
