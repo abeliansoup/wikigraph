@@ -540,7 +540,8 @@ def cmd_query(args):
             print("[!] No path found."); return
         titles = [nid_to_title(cur, nid) for nid in path]
         print(f"[+] Path ({len(path)-1} hops): " + " -> ".join(titles))
-        return titles
+        if len(titles) < 100:
+            return titles
 
 def cmd_verify(args):
     cache = Path(args.cache)
