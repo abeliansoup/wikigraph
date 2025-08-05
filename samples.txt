@@ -77,3 +77,15 @@
 [+] Path (5 hops): Minister_for_Industrial_Relations_(Victoria) → Minister_for_Treaty_and_First_Peoples → Indigenous_rock → Brazilian_rock → Violeta_de_Outono → The_Early_Years_(Violeta_de_Outono_album)
 [+] Path (5 hops): Forever_(Diddy_album) → Music_genre → Lyrics → Henry_Howard,_Earl_of_Surrey → Thetford_Priory → John_Bramis
 [+] Path (5 hops): Acad._Open_Appl._Environ._Sci._Res._J. → ISO_4 → ISO_20121 → Sebastian_Coe → Stanley_Park → Babine_Lake_Marine_Provincial_Park
+[+] Path (4 hops): Pakistan_People's_Party → Durrani_Empire → Herat → List_of_highways_numbered_1 → List_of_highways_numbered_757
+[+] Path (4 hops): Dark_ambient → Brian_Eno → Neverwhere → Gardner_Dozois → Aliens_Among_Us
+[+] Path (3 hops): Joshua → Catholic_Total_Abstinence_Union_Fountain → John_Carroll_(archbishop_of_Baltimore) → Peter_Henry_Lemke
+[+] Path (4 hops): Cycling_at_the_1970_Asian_Games → Cycle_sport → Outline_of_bicycles → Frank_Zappa → Joe's_Garage
+[+] Path (5 hops): John_Phiri_(politician) → Ministry_of_Local_Government_(Zambia) → Kenneth_Kaunda → Steve_Biko → Peter_Gabriel → List_of_minor_planets:_24001–25000
+[+] Path (5 hops): Daeseongsan_(Gangwon) → Gangwon_Province,_South_Korea → Seaside_resort → Viña_del_Mar → Santiago_(commune) → Alejandra_Placencia
+[+] Path (4 hops): Thomas_Souverbie → Pau,_Pyrénées-Atlantiques → Washington,_D.C. → Article_One_of_the_United_States_Constitution → North_American_Co._v._SEC
+[+] Path (4 hops): Château_de_Rayne-Vigneau → Greek_alphabet → Crimea → Crimean_Karaites → Trakai_Kenesa
+[-] No path found between St-Victor and Nelbia_Romero
+[+] Path (4 hops): Honesty_Day → Google → Tokyo → Junichiro_Koizumi → Chikage_Oogi
+[+] Path (3 hops): Air_Tractor_AT-500_family → United_States → Hamburger → Processed_cheese
+[+] Path (4 hops): History_of_the_Jews_in_Taiwan → History_of_the_Jews_in_Egypt → Egypt_in_World_War_II → Juno_Beach → Courseulles-sur-Mer

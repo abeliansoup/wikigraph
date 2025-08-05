@@ -754,14 +754,10 @@ def sample_set(n: int,
                 results.append(f"[-] No path found between {s_title} and {t_title}")
         except Exception as e:
             # print(f"[-] No path found between {s_title} and {t_title}")
-            print(f"Critical error: {e}")
-            pass
-        
-        # Sleep for a minute every 10 rounds for hacky memory use backo0ff
-        if not (i + 1) % 10:
-            print(f"[*] Completed {i+1} queries, sleeping for 60 seconds...")
+            print(f"Critical error: {e}. 60s timeout...")
             time.sleep(60)
-    
+            pass
+
     # Write results to file
     Path(output_path).parent.mkdir(parents=True, exist_ok=True)
     with open(output_path, "a", encoding="utf-8") as fout:
