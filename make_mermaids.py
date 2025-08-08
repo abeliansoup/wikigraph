@@ -1,25 +1,20 @@
 #!/usr/bin/env python3
 """
-Parser for samples.txt to generate mermaid diagrams
-Each path flows diagonally from top-left to bottom-right
-Each node has 3 arrows: center arrow to next node, two side arrows to transparent endpoints
+Parser for samples.txt to generate mermaid diagrams with PROPER randomization
+Each connection between nodes randomly chooses which of 3 arrows to use
 """
 
 import re
+import random
 from typing import List, Tuple, Optional
 
 def parse_sample_line(line: str) -> Optional[Tuple[int, List[str]]]:
-    """
-    Parse a line from samples.txt
-    Returns: (hops, path_nodes) or None if not a valid path
-    """
+    """Parse a line from samples.txt"""
     line = line.strip()
     
-    # Skip lines that don't have successful paths
     if '[+]' not in line:
         return None
     
-    # Extract path information using regex, accounting for line numbers at start
     pattern = r'.*\[\+\] Path \((\d+) hops\): (.+)'
     match = re.match(pattern, line)
     
@@ -28,68 +23,73 @@ def parse_sample_line(line: str) -> Optional[Tuple[int, List[str]]]:
     
     hops = int(match.group(1))
     path_str = match.group(2)
-    
-    # Split path by arrow and clean up node names
     nodes = [node.strip() for node in path_str.split(' → ')]
     
     return hops, nodes
 
 def create_mermaid_diagram(hops: int, nodes: List[str]) -> str:
     """
-    Create a mermaid diagram for a single path flowing diagonally
-    Each node has 3 arrows: center to next node, two sides to transparent endpoints
+    Create a mermaid diagram with TRUE randomization per connection
     """
     
-    mermaid_content = ["```mermaid", "graph TD"]
+    config = """%%{init: {
+  "theme": "dark",                             
+  "flowchart": {
+    "useMaxWidth": true,
+    "defaultRenderer": "elk",
+    "nodeSpacing": 30, "rankSpacing": 40
+  },
+  "themeVariables": { "fontFamily": "ui-monospace" }
+}}%%"""
+
+    mermaid_content = ["```mermaid", config, "graph TD"]
+    dummy_nodes = []
     
-    # Define transparent/dummy nodes for side arrows
-    dummy_nodes = set()
+    # Add all node definitions first
+    for i, node in enumerate(nodes):
+        node_id = f"N{i}"
+        clean_name = node.replace("_", " ")
+        if len(clean_name) > 100:
+            clean_name = clean_name[:97] + "..."
+        mermaid_content.append(f'    {node_id}["{clean_name}"]')
     
-    # Add nodes for this path
-    for node_idx, node in enumerate(nodes):
-        node_id = f"N{node_idx}"
-        clean_node_name = node.replace("_", " ")
+    # Add random connections
+    for i in range(len(nodes) - 1):
+        current = f"N{i}"
+        next_node = f"N{i + 1}"
+        chosen_position = random.randint(1, 3)
         
-        # Truncate very long node names
-        if len(clean_node_name) > 100:
-            clean_node_name = clean_node_name[:97] + "..."
+        print(f"Connection {current} -> {next_node}: using position {chosen_position}")
         
-        mermaid_content.append(f'    {node_id}["{clean_node_name}"]')
+        for pos in range(1, 4):
+            if pos == chosen_position:
+                # Real connection
+                mermaid_content.append(f"    {current} --> {next_node}")
+            else:
+                # Dummies
+                dummy_id = f"DUMMY_{i}_{pos}"
+                dummy_nodes.append(dummy_id)
+                mermaid_content.append(f"    {current} -.-> {dummy_id}")
     
-    # Add connections for this path
-    for node_idx in range(len(nodes) - 1):
-        current_node = f"N{node_idx}"
-        next_node = f"N{node_idx + 1}"
-        
-        # Center arrow to next node in path
-        mermaid_content.append(f"    {current_node} --> {next_node}")
-        
-        # Two side arrows to dummy nodes (transparent endpoints)
-        left_dummy = f"D{node_idx}L"
-        right_dummy = f"D{node_idx}R"
-        
-        dummy_nodes.add(left_dummy)
-        dummy_nodes.add(right_dummy)
-        
-        mermaid_content.append(f"    {current_node} -.-> {left_dummy}")
-        mermaid_content.append(f"    {current_node} -.-> {right_dummy}")
-    
-    # Add dummy nodes with transparent styling
-    for dummy in sorted(dummy_nodes):
+    # Add dummy node definitions
+    mermaid_content.append("")
+    for dummy in dummy_nodes:
         mermaid_content.append(f'    {dummy}[ ]')
     
-    # Add styling to make dummy nodes transparent/invisible
+    # Add styling
     mermaid_content.append("")
-    mermaid_content.append("    %% Style dummy nodes as transparent")
-    for dummy in sorted(dummy_nodes):
+    mermaid_content.append("    %% Make dummy nodes transparent")
+    for dummy in dummy_nodes:
         mermaid_content.append(f"    style {dummy} fill:transparent,stroke:transparent")
     
     mermaid_content.append("```")
-    
     return "\n".join(mermaid_content)
 
 def main():
-    """Main function to parse samples.txt and generate .md"""
+    """Main function"""
+    
+    # Use no seed for true randomness each run
+    random.seed()  
     
     # Read samples.txt
     try:
@@ -99,7 +99,7 @@ def main():
         print("Error: samples.txt not found")
         return
     
-    # Parse all lines
+    # Parse all paths
     paths = []
     for line_num, line in enumerate(lines, 1):
         result = parse_sample_line(line)
@@ -110,32 +110,31 @@ def main():
     
     print(f"\nTotal paths found: {len(paths)}")
     
-    # Generate individual mermaid diagrams for each path
-    readme_content = ["# WikiGraph Path Visualizations", ""]
-    readme_content.append("This file contains individual mermaid diagrams for each Wikipedia path from samples.txt.")
-    readme_content.append("Each path flows diagonally from top-left to bottom-right.")
-    readme_content.append("Each node has three arrows: one central arrow leading to the next node, and two side arrows leading to transparent endpoints.")
+    # Generate README with individual diagrams
+    readme_content = ["# WikiGraph Path Visualizations"]
+    readme_content.append("Each connection between nodes uses a RANDOMLY chosen arrow position (1, 2, or 3).")
+    readme_content.append("Every single connection is independently randomized!")
     readme_content.append("")
     
-    # Create individual diagram for each path
+    # Generate one diagram per path with true randomization
     for path_idx, (hops, nodes) in enumerate(paths, 1):
+        print(f"\nGenerating diagram for Path {path_idx}:")
+        
         readme_content.append(f"## Path {path_idx}")
         readme_content.append("")
         readme_content.append(f"**{hops} hops**: {' → '.join(nodes)}")
         readme_content.append("")
         
-        # Add individual mermaid diagram
+        # Create diagram with independent randomization
         mermaid_diagram = create_mermaid_diagram(hops, nodes)
         readme_content.append(mermaid_diagram)
         readme_content.append("")
     
-    # Write README.md
-    readme_text = "\n".join(readme_content)
-    
+    # Write to file
     with open('mermaid_samples.md', 'w', encoding='utf-8') as f:
-        f.write(readme_text)
+        f.write("\n".join(readme_content))
     
-    print(f"Generated mermaid_samples.md with {len(paths)} individual path diagrams")
+    print(f"\nGenerated truly_random_samples.md with {len(paths)} randomized diagrams")
 
 if __name__ == "__main__":
     main()

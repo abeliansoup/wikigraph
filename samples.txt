@@ -120,3 +120,111 @@
 [+] Path (4 hops): Drum_Corps_Europe → United_Kingdom → Mauritius → Mass_media_in_Mauritius → List_of_magazines_in_Mauritius
 [+] Path (4 hops): 1984_Alpine_Skiing_World_Cup_–_Women's_giant_slalom_and_super-G → Italy → 2006_Winter_Olympics → RAI → Fuoriclasse
 [+] Path (4 hops): Homestead_Records_(1920s) → United_States → Elvis_Presley → Patsy_Cline → Country_Music_(miniseries)
+[+] Path (4 hops): Family_Herald → United_Kingdom → Estonia → Juri_Lotman → Mark_Azadovsky
+[+] Path (5 hops): Arkansas_Highway_374 → United_States → Biodiversity → Cell_biology → Index_of_molecular_biology_articles → Fluorophore-assisted_carbohydrate_electrophoresis
+[+] Path (3 hops): Southwest_Florida_International_Airport → Pan_Am → Blade_Runner → Dick_Morrissey
+[+] Path (3 hops): The_Price_Is_Right → The_Late_Late_Show_with_Craig_Ferguson → The_Late_Late_Show_(Irish_talk_show) → Spain_in_the_Eurovision_Song_Contest
+[+] Path (2 hops): 1948 → January_10 → List_of_traffic_collisions_(2000–present)
+[-] No path found between Frank_Fay_(actor) and Powder-tipped_antler_lichen
+[+] Path (3 hops): Kevin_Malone_(baseball) → Baseball → WGY_(AM) → Remote_broadcast
+[+] Path (5 hops): Hecto- → English_language → Namibia → World_Athletics_Championships → 2012_IAAF_World_Race_Walking_Cup → Kenny_Martín_Pérez
+[+] Path (3 hops): Democrazy → Virtual_band → VTuber → Kazunari_Ninomiya
+[+] Path (4 hops): Tributylamine → ISBN → List_of_book-burning_incidents → Canadian_Broadcasting_Corporation → CBSI-FM
+[+] Path (4 hops): Hearts_of_Space_Records → Lightwave_(band) → Paris → Racing_92 → Benjamin_Noirot
+[-] No path found between Briukhovetsky and Glen_Edward_Buxton
+[+] Path (4 hops): List_of_highways_numbered_5 → Minnesota_State_Highway_5 → Prince_(musician) → Bad_(album) → Respect_(Jimmy_Smith_album)
+[+] Path (4 hops): Terry_Farrell_(actress) → Symbiosis → Bean → Aegean_civilization → Minorities_in_Greece
+[+] Path (4 hops): The_4-Hour_Workweek → Jacobin_(magazine) → Anarchism → Penal_colony → Penal_Colony_(band)
+[+] Path (4 hops): Centre_for_Recent_Drawing → Art_therapy → Cognitive_behavioral_therapy → Transcription_factor → STAT6
+[+] Path (3 hops): Onic_Esports → Burmese_Ghouls → Huawei → Patent_Cooperation_Treaty
+[+] Path (4 hops): Metro_Center_station → Metro_station → Vancouver → The_X-Files → List_of_Murder,_She_Wrote_episodes
+[+] Path (5 hops): Tillandsia_flexuosa → Florida → Conquistador → Dragoon → 9th_Queen's_Royal_Lancers → Flower_Mocher
+[+] Path (3 hops): Congazcicul_de_Sus → City → Bank → Stockbroker
+[+] Path (4 hops): Sugarloaf_Mountain_(Massachusetts) → University_of_Massachusetts_Amherst → Gillette_Stadium → Luke_Bryan → Jeff_Stevens_(singer)
+[+] Path (4 hops): Ad_hoc → Ottawa → London,_Ontario → Varadero → Perico,_Cuba
+[+] Path (4 hops): Fashalanj → Iran → Helicopter → Joystick → LHX_Attack_Chopper
+[+] Path (3 hops): Bookworm_Adventures → Fairy_tale → Silesia → Bielsko-Biała
+[+] Path (5 hops): Zeytinliova → Time_zone → Ecology → Termite → Ground_spider → Canariognapha
+[+] Path (4 hops): Christian_Science_Today → Free_Exercise_Clause → Human_sacrifice → Manes → Delano_Ames
+[+] Path (5 hops): Pletený_Újezd → Market_town → Consolidated_city-county → Georgia_General_Assembly → 148th_Georgia_General_Assembly → Nikki_Randall_(politician)
+[+] Path (3 hops): Andy_Welinski → Duluth,_Minnesota → 2020_United_States_presidential_election → 2020_Nebraska_Legislature_election
+[+] Path (5 hops): 1892_Marquette_Blue_and_Gold_football_team → Marquette_University → Latin → Romansh_language → List_of_prominent_mountains_of_Switzerland → Cima_di_Pinadee
+[-] No path found between Environment_of_Georgia and Saettia_MK4_class
+[+] Path (4 hops): Avi_Tikva → Israel → Pop_rock → Garage_rock → Little_Girl_(Syndicate_of_Sound_song)
+[+] Path (5 hops): Merrifieldia_hedemanni → Canary_Islands → Turkish_people → Kirkuk → Younis_Mahmoud → 2001–02_Iraq_FA_Cup
+[+] Path (4 hops): Idu_Mishmi_language → ISO_639-3 → JPEG_2000 → Wolfram_(software) → Gecode
+[+] Path (5 hops): Protests_against_conscription_of_yeshiva_students → Torah → Hoopoe → Ant → Blattodea → Therea_petiveriana
+[-] No path found between 55th_Infantry_Division and James_Demetriou
+[+] Path (4 hops): N-Methyl-PPPA → Tramadol → Grenoble → Chaumont,_Haute-Marne → Châteauvillain
+[+] Path (4 hops): Energy_in_California → Massachusetts → Ryder_Cup → List_of_male_golfers → Cam_Burke
+[-] No path found between Mars_Face and Manantiales_(disambiguation)
+[+] Path (3 hops): HD_98219 → Year → Anthropology → Vascular_tissue
+[+] Path (5 hops): Launch_Rock → Rothera_Research_Station → Capital_city → La_Plata → Julio_Velasco → Mehdi_Bazargard
+[+] Path (4 hops): Girls_at_Arms_2 → Comedy_film → Bruceploitation → Nokia → International_Semi-Tech_Microsystems
+[+] Path (4 hops): Lost_Words:_Beyond_the_Page → Video_game_music → Sobre_las_olas → The_Beach_Boys → Summer_in_Paradise
+[+] Path (4 hops): Order_of_Pope_Pius_IX → Sergio_Mattarella → Freemasonry → Myosotis → Robert_J._Shuttleworth
+[+] Path (4 hops): Mike_Hart_(poker_player) → World_Series_of_Poker → Harrah's_Atlantic_City → The_Oak_Ridge_Boys → Seasons_(The_Oak_Ridge_Boys_album)
+[+] Path (3 hops): Eurasian_Anal_Sci_Eng_Res_J → ISO_4 → ISO/IEC_8859 → Hanunoo_script
+[+] Path (3 hops): Heliocentrism → Circle_of_latitude → Wyoming → Boysen_Reservoir
+[+] Path (4 hops): House_of_Football → Ukraine → Isle_of_Man → Douglas_Bay_Horse_Tramway → Wemyss_and_District_Tramways_Company
+[+] Path (5 hops): Membrane_glycoproteins → Cell_junction → Latin → Ancient_Roman_architecture → List_of_Roman_sites_in_Spain → Muel_Dam
+[+] Path (4 hops): 1987_Mid_Bedfordshire_District_Council_election → Labour_Party_(UK) → Marxism–Leninism → Haile_Selassie → United_Nations_Security_Council_Resolution_143
+[+] Path (4 hops): The_Timber → Klondike_Gold_Rush → Frostbite → Magnetic_resonance_imaging → Projectional_radiography
+[+] Path (4 hops): Pillars_of_Ashoka → Pali → TeX → Troff → Mandoc
+[+] Path (4 hops): Coal_Point,_New_South_Wales → Parish_(administrative_division) → List_of_municipalities_of_Norway → Karlsøy_Municipality → Helgøya_(Troms)
+[+] Path (4 hops): Castle_Crag_(Tasmania) → Mount_Wellington_(Tasmania) → Robert_Brown_(botanist,_born_1773) → Thomas_Andrew_Knight → Charlotte_Knight
+[+] Path (4 hops): Crash_Bandicoot → Dinosaur → Nautilus → New_Caledonia → Open_Nouvelle-Calédonie
+[+] Path (3 hops): Māori_land_march → Auckland_Harbour_Bridge → Francis_Scott_Key_Bridge_collapse → Francis_Scott_Key_Bridge_(Baltimore)
+[+] Path (4 hops): Nay_Lin_Aung → Myanmar → South_Africa → Uranium → Uranophane
+[+] Path (5 hops): Domain.com → Public_key_certificate → Asterisk → Dungeons_&_Dragons → Where_Chaos_Reigns → Brian_Williams_(illustrator)
+[+] Path (4 hops): Advance_healthcare_directive → Consent → Misanthropy → Batman → Blue_Beetle
+[+] Path (4 hops): Kamensk-Uralsky → Confluence → Philadelphia → Franklin,_Pennsylvania → Philadelphia_Public_League
+[+] Path (4 hops): Semkhor → President_of_India → List_of_diplomatic_missions_of_India → Ankara → Elazığ
+[+] Path (4 hops): Back_(TV_series) → Fosterage → Teenage_pregnancy → Maya_Angelou → Just_Give_Me_a_Cool_Drink_of_Water_'fore_I_Diiie
+[+] Path (4 hops): Carales_(moth) → Animal → Lists_of_animals → List_of_leptotyphlopid_species_and_subspecies → Drewes's_worm_snake
+[+] Path (5 hops): Dennis_Schulp → Germany → Catholic_Church → Pope_Gregory_XII → Ragusa,_Sicily → Maria_Paternò_Arezzo
+[+] Path (3 hops): Bush_Field_(Yale) → Stadium → Emoji → Private_Use_Areas
+[+] Path (3 hops): S._F._Brownrigg → IMDb → Jeff_Bezos → Elizabeth_II
+[+] Path (4 hops): Partulina_dolei → United_States → NASCAR → League_of_Legends_EMEA_Championship → 2016_EU_LCS_season
+[+] Path (4 hops): Toybox_(TV_series) → Beyond_International → Popstars → The_Cheeky_Girls → Malakai_Bayoh
+[+] Path (3 hops): Day_of_Silence → Sexual_and_gender_minorities → Tumblr → Automatic_content_recognition
+[+] Path (5 hops): Varniai → English_language → Liverpool → Widnes_Vikings → David_Allen_(rugby_league) → Colton_Roche
+[+] Path (4 hops): Limeyrat → Departments_of_France → Albi → Palace → Bishop_of_Limerick
+[+] Path (4 hops): Pennsylvania_Route_844 → West_Virginia → Bitumen → Carboxylic_acid → Undecylic_acid
+[+] Path (4 hops): Encantadia → DVD → Gamba_Osaka → Hapoel_Tel_Aviv_F.C. → Tal_Archel
+[-] No path found between Rev_Afr_Livres and EKM_(disambiguation)
+[+] Path (4 hops): Sol_Tremelling → Association_football → English_language → Austrian_German → Prekmurje_Slovene
+[+] Path (5 hops): People's_Commissariat_for_Military_and_Naval_Affairs → Soviet_Union → Moldovan_Cyrillic_alphabet → July → Delphinium → HMS_Delphinium
+[+] Path (4 hops): Daniel_Wightman → Cricket → Sitting_volleyball → Socialist_Federal_Republic_of_Yugoslavia → Oliver_Mandić
+[+] Path (4 hops): Johannes_Thesselius → Germany → German_Empire → List_of_Olympians_killed_in_World_War_I → Justin_Vialaret
+[+] Path (3 hops): C&A → Netherlands → Erasmus → Thérèse_of_Lisieux
+[+] Path (3 hops): List_of_Tom_and_Jerry_characters → Cougar → Nicaragua → Arawakan_languages
+[+] Path (5 hops): 1953–54_NTFL_season → Southern_Districts_Football_Club → Notre_Dame_Victory_March → Atlantic_Coast_Conference → Liberty_Bowl → 2009_East_Carolina_Pirates_football_team
+[+] Path (4 hops): 2001_ASB_Classic_–_Doubles → Japan → List_of_best-selling_manga → YuYu_Hakusho → Yu_Yu_Hakusho:_The_Movie_and_Yu_Yu_Hakusho_the_Movie:_Poltergeist_Report
+[+] Path (4 hops): Rhomphaea_projiciens → Rhomphaea → Georgia_(country) → Lori_Province → Saramej
+[+] Path (3 hops): Hafrsfjord → Drainage_basin → Dam → Marghab_River
+[+] Path (6 hops): Bojan_Jambrošić → Josh_Groban → Siberia → Southwestern_United_States → Craugastor_augusti → Craugastor → Craugastor_berkenbuschii
+[+] Path (6 hops): Potomac-class_frigate → Original_six_frigates_of_the_United_States_Navy → Malaria → Apicomplexa → Orthonectida → Solariella → Calliotropis_hondoensis
+[+] Path (4 hops): Sir_Charles_Hamilton_Sound → Sir_Charles_Hamilton,_2nd_Baronet,_of_Marlborough_House → John_Murray_(publishing_house) → Yen_Press → Sound!_Euphonium
+[+] Path (4 hops): Samia_wangi → Insect → Uric_acid → Guanosine → Guanamine
+[-] No path found between Brian_Naylor_(disambiguation) and La_Vita_è_bella
+[+] Path (4 hops): Aleksandrs_Miezītis → Riga → Holography → Cathode-ray_tube → Traveling-wave_tube
+[+] Path (5 hops): 1999_Tour_de_France,_Stage_11_to_Stage_20 → Bordeaux → Umayyad_Caliphate → History_of_Poland → Thick_line → Krzyżowa,_Silesian_Voivodeship
+[+] Path (4 hops): Mitromorpha_keenae → INaturalist → Vietnam → Economy_of_Vietnam → Ninh_Thuận_1_Nuclear_Power_Plant
+[+] Path (3 hops): Jean-Paul_Bacquet → France → French_philosophy → Averroism
+[+] Path (3 hops): Human,_All_Too_Human → Theology → Sects_of_Sikhism → Talwandi_Sabo
+[+] Path (4 hops): Malpur,_Mainpuri → Kaushambi_district → 1975_Asian_Amateur_Boxing_Championships → Iqbal_Muhammad → Boxing_at_the_1998_Asian_Games_–_Men's_81_kg
+[+] Path (5 hops): The_Dark_Tree → Piano → Vienna → Albrecht_Dürer → Margaret_Wertheim → Jim_Carter_(pseudoscientist)
+[+] Path (3 hops): Leonor_Acevedo_Suárez → Argentina → Melting_pot → Randolph_Bourne
+[+] Path (4 hops): Catherine_de'_Medici's_patronage_of_the_arts → Huguenots → Francis_of_Assisi → Malayalam_cinema → Sathyan_Anthikad
+[+] Path (4 hops): Joseph_Gomis → 2006_FIBA_World_Championship → UTC+09:00 → Primorsky_Krai → Lazovsky_District
+[+] Path (4 hops): Le_Havre_(board_game) → Wharf → Norway → Fredrik_Carl_Størmer → Erling_Wicklund
+[+] Path (4 hops): List_of_Farm_to_Market_Roads_in_Texas_(200–299) → Texas → American_Baptist_Churches_USA → Generation_X → Kid_'n_Play
+[+] Path (4 hops): King_Narai's_Palace → Districts_of_Thailand → List_of_administrative_divisions_by_country → List_of_municipalities_and_towns_in_Slovakia → Pečeňany
+[+] Path (3 hops): 2006_Australian_motorcycle_Grand_Prix → Hungary → Tokaji → Traveller_(role-playing_game)
+[+] Path (3 hops): Don_Cannon → SiriusXM → Tom_Morello → Chapter_and_Verse_(Bruce_Springsteen_album)
+[+] Path (3 hops): South-East_Asian_theatre_of_World_War_II → Death_of_Subhas_Chandra_Bose → 1923_Great_Kantō_earthquake → 1929_Grand_Banks_earthquake
+[+] Path (4 hops): Coat_of_arms_of_the_Nguyễn_dynasty → Tonkin_(French_protectorate) → Indiana → Taylor_University → Ivanhoe's_Restaurant
+[+] Path (5 hops): Abu_Abdul_Rahman → Arabic → Red → Liverpool_F.C. → List_of_Liverpool_F.C._players_(1–24_appearances) → Alex_Smith_(footballer,_born_1915)
+[+] Path (4 hops): Scale-crested_pygmy_tyrant → Bird → Grumman_HU-16_Albatross → North_American_B-25_Mitchell → Supermarine_Walrus
+[-] No path found between Walsh,_Robert and Sim_Myeong-Hui

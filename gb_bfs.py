@@ -558,13 +558,428 @@ def cmd_verify(args):
 
     print(json.dumps(res, ensure_ascii=False))
 
+
+# =================== Adjacency SQLite (precomputed) ===================
+class AdjDB:
+    """
+    Compact per-node adjacency store in SQLite:
+      CREATE TABLE adj(nid INTEGER PRIMARY KEY, out BLOB, inn BLOB,
+                       outdeg INT, indeg INT)
+    out/inn are little-endian uint32 arrays (BLOB). Fetch is O(1).
+    """
+    def __init__(self, path: Path):
+        self.path = Path(path)
+        self.conn = sqlite3.connect(f"file:{self.path}?mode=ro&immutable=1", uri=True)
+        self.cur = self.conn.cursor()
+        # Speed-oriented PRAGMAs for read-only workload (best-effort)
+        try:
+            self.cur.execute("PRAGMA mmap_size=1073741824")  # 1 GiB
+            self.cur.execute("PRAGMA cache_size=-200000")     # ~200 MB
+            self.cur.execute("PRAGMA temp_store=MEMORY")
+        except Exception:
+            pass
+        # Simple LRU caches to avoid repeated BLOB reads
+        from collections import OrderedDict
+        self._out_cache = OrderedDict()
+        self._in_cache = OrderedDict()
+        self._cache_capacity = 5000
+
+    @staticmethod
+    def _blob_to_array(b: bytes) -> np.ndarray:
+        if b is None:
+            return np.empty(0, dtype=np.uint32)
+        a = np.frombuffer(b, dtype="<u4")  # little-endian u32
+        return a
+
+    def out_neighbors(self, nid: int) -> np.ndarray:
+        key = int(nid)
+        if key in self._out_cache:
+            arr = self._out_cache.pop(key)
+            self._out_cache[key] = arr  # mark as most-recent
+            return arr
+        r = self.cur.execute("SELECT out FROM adj WHERE nid=?", (key,)).fetchone()
+        if not r or r[0] is None:
+            return np.empty(0, dtype=np.uint32)
+        # Copy to own memory so the view outlives SQLite buffer
+        arr = np.frombuffer(r[0], dtype="<u4").copy()
+        self._out_cache[key] = arr
+        if len(self._out_cache) > self._cache_capacity:
+            self._out_cache.popitem(last=False)
+        return arr
+
+    def in_neighbors(self, nid: int) -> np.ndarray:
+        key = int(nid)
+        if key in self._in_cache:
+            arr = self._in_cache.pop(key)
+            self._in_cache[key] = arr
+            return arr
+        r = self.cur.execute("SELECT inn FROM adj WHERE nid=?", (key,)).fetchone()
+        if not r or r[0] is None:
+            return np.empty(0, dtype=np.uint32)
+        arr = np.frombuffer(r[0], dtype="<u4").copy()
+        self._in_cache[key] = arr
+        if len(self._in_cache) > self._cache_capacity:
+            self._in_cache.popitem(last=False)
+        return arr
+
+def _ensure_adj_sqlite(cache_dir: Path) -> Path | None:
+    p = Path(cache_dir) / "adjacency.sqlite"
+    return p if p.exists() else None
+
+def build_adjacency_sqlite(cache_dir: str,
+                           block_rows: int = 500_000,
+                           sqlite_batch: int = 200_000):
+    """
+    Build adjacency.sqlite using a fast 2-pass edge scan with row blocking.
+    Pass 1: compute outdeg/indeg.
+    Pass 2: fill contiguous uint32 arrays OUT_ADJ/IN_ADJ using per-chunk grouping,
+            then bulk-insert per-node blobs into SQLite.
+
+    Memory guide (E ≈ 6.8e8, N ≈ 1.8e7):
+      OUT_ADJ, IN_ADJ: ~2 * E * 4B ≈ 5.44 GB
+      offsets/deg: < 0.5 GB total
+      chunk temporaries: tuned via block_rows (default 5e5)
+    """
+    from time import time
+    cache_dir = Path(cache_dir)
+    A, _AT = load_or_create_A_AT(cache_dir)  # only A is used here
+    n = int(A.nrows)
+    E = int(A.nvals)
+
+    print(f"[build-adj] N={n:,}  E={E:,}  block_rows={block_rows:,}")
+
+    # ---------- PASS 1: degrees ----------
+    t0 = time()
+    outdeg = np.zeros(n, dtype=np.int64)
+    indeg = np.zeros(n, dtype=np.int64)
+
+    r0 = 0
+    while r0 < n:
+        r1 = min(n, r0 + block_rows)
+        # submatrix rows [r0:r1)
+        B = A[r0:r1, :].new()
+        if B.nvals:
+            rows, cols, _vals = B.to_coo()  # rows are 0..(r1-r0-1), cols are global 0..n-1
+            # Ensure signed index dtype for downstream NumPy ops (e.g., bincount)
+            if rows.dtype != np.int64:
+                rows = rows.astype(np.int64, copy=False)
+            if cols.dtype != np.int64:
+                cols = cols.astype(np.int64, copy=False)
+            if len(rows):
+                # outdeg for this row block
+                cnt_out = np.bincount(rows, minlength=r1 - r0)
+                outdeg[r0:r1] += cnt_out
+            if len(cols):
+                # indeg over global domain; returns length-n vector (big but ok)
+                cnt_in = np.bincount(cols, minlength=n)
+                indeg += cnt_in
+        r0 = r1
+        if (r0 // block_rows) % 4 == 0 or r0 == n:
+            done = r0 / n
+            speed = outdeg.sum() / max(time() - t0, 1e-9)
+            eta = (E - outdeg.sum()) / max(speed, 1e-9) / 3600
+            print(f"[pass1] {done:6.2%}  edges seen≈{outdeg.sum():,}  ETA {eta:5.1f}h")
+
+    assert int(outdeg.sum()) == E, f"outdeg sum {outdeg.sum()} != E {E}"
+    assert int(indeg.sum()) == E, f"indeg sum {indeg.sum()} != E {E}"
+
+    # offsets (CSR/CSC)
+    out_off = np.empty(n + 1, dtype=np.int64); out_off[0] = 0
+    np.cumsum(outdeg, out=out_off[1:]); out_off = np.cumsum(np.r_[0, outdeg], dtype=np.int64)
+    in_off  = np.empty(n + 1, dtype=np.int64);  in_off[0]  = 0
+    in_off  = np.cumsum(np.r_[0, indeg], dtype=np.int64)
+
+    # allocate adjacency flat arrays
+    OUT_ADJ = np.empty(E, dtype=np.uint32)
+    IN_ADJ  = np.empty(E, dtype=np.uint32)
+
+    # we maintain moving write heads per node
+    out_cur = out_off.copy()
+    in_cur  = in_off.copy()
+
+    print(f"[pass1] done in {(time()-t0):.1f}s. Allocated OUT/IN arrays.")
+
+    # ---------- PASS 2: fill adjacency ----------
+    t1 = time()
+    r0 = 0
+    filled = 0
+    while r0 < n:
+        r1 = min(n, r0 + block_rows)
+        B = A[r0:r1, :].new()
+        if B.nvals:
+            rows, cols, _ = B.to_coo()
+            # Normalize to signed indices for NumPy operations
+            if rows.dtype != np.int64:
+                rows = rows.astype(np.int64, copy=False)
+            if cols.dtype != np.int64:
+                cols = cols.astype(np.int64, copy=False)
+            if len(rows):
+                # GLOBAL row ids:
+                ug = rows + r0
+                vg = cols
+
+                # --- OUT (group by source ug) ---
+                if len(ug):
+                    order = np.argsort(ug, kind="mergesort")
+                    ug_sorted = ug[order]
+                    vg_sorted = vg[order]
+
+                    uniq, starts, counts = np.unique(ug_sorted, return_index=True, return_counts=True)
+                    # loop over uniq sources in this chunk (vectorized slice copies; Python loop count ≈ active rows in block)
+                    for u, s, c in zip(uniq, starts, counts):
+                        pos = out_cur[u]
+                        OUT_ADJ[pos:pos + c] = vg_sorted[s:s + c]
+                        out_cur[u] = pos + c
+
+                # --- IN (group by target vg) ---
+                if len(vg):
+                    order2 = np.argsort(vg, kind="mergesort")
+                    vg_sorted2 = vg[order2]
+                    ug_sorted2 = ug[order2]
+                    uniq2, starts2, counts2 = np.unique(vg_sorted2, return_index=True, return_counts=True)
+                    for v, s, c in zip(uniq2, starts2, counts2):
+                        pos = in_cur[v]
+                        IN_ADJ[pos:pos + c] = ug_sorted2[s:s + c]
+                        in_cur[v] = pos + c
+
+                filled += len(rows)
+                if (r1 // block_rows) % 2 == 0 or r1 == n:
+                    done = r1 / n
+                    edgedone = int(out_cur.sum() - out_off.sum())  # approximate
+                    speed = edgedone / max(time() - t1, 1e-9)
+                    eta = (E - edgedone) / max(speed, 1e-9) / 3600
+                    print(f"[pass2] {done:6.2%}  edges placed≈{edgedone:,}  ETA {eta:5.1f}h")
+        r0 = r1
+
+    # safety: all write heads consumed exactly degrees
+    # First n entries should advance by degree; the sentinel n-th entry remains equal to total E
+    assert np.all(out_cur[:-1] == out_off[:-1] + outdeg) and (out_cur[-1] == out_off[-1]), "OUT write heads mismatch"
+    assert np.all(in_cur[:-1]  == in_off[:-1]  + indeg) and (in_cur[-1]  == in_off[-1]),  "IN write heads mismatch"
+
+    print(f"[pass2] done in {(time()-t1):.1f}s. Writing SQLite…")
+
+    # ---------- SQLite write ----------
+    adj_path = cache_dir / "adjacency.sqlite"
+    if adj_path.exists():
+        adj_path.unlink()
+
+    conn = sqlite3.connect(str(adj_path))
+    cur = conn.cursor()
+    cur.executescript("""
+      PRAGMA journal_mode=OFF;
+      PRAGMA synchronous=OFF;
+      PRAGMA temp_store=MEMORY;
+      PRAGMA page_size=65536;
+      PRAGMA cache_size=-200000;
+      PRAGMA locking_mode=EXCLUSIVE;
+      DROP TABLE IF EXISTS adj;
+      CREATE TABLE adj(
+        nid INTEGER PRIMARY KEY,
+        out BLOB,
+        inn BLOB,
+        outdeg INT,
+        indeg INT
+      );
+      CREATE INDEX IF NOT EXISTS idx_adj_outdeg ON adj(outdeg);
+      CREATE INDEX IF NOT EXISTS idx_adj_indeg ON adj(indeg);
+    """)
+    conn.commit()
+
+    def rows_iter(start: int, end: int):
+        # pack little-endian uint32 slices
+        for u in range(start, end):
+            o0, o1 = int(out_off[u]), int(out_off[u + 1])
+            i0, i1 = int(in_off[u]),  int(in_off[u + 1])
+            out_blob = (OUT_ADJ[o0:o1].astype("<u4", copy=False)).tobytes() if o1 > o0 else None
+            inn_blob = (IN_ADJ[i0:i1].astype("<u4", copy=False)).tobytes() if i1 > i0 else None
+            yield (u, out_blob, inn_blob, int(o1 - o0), int(i1 - i0))
+
+    t2 = time()
+    u0 = 0
+    while u0 < n:
+        u1 = min(n, u0 + sqlite_batch)
+        cur.execute("BEGIN IMMEDIATE")
+        cur.executemany("INSERT INTO adj(nid,out,inn,outdeg,indeg) VALUES (?,?,?,?,?)",
+                        rows_iter(u0, u1))
+        conn.commit()
+        u0 = u1
+        if (u0 // sqlite_batch) % 10 == 0 or u0 == n:
+            done = u0 / n
+            print(f"[sqlite] {done:6.2%} rows written")
+
+    conn.close()
+    print(f"[build-adj] total time {(time()-t0):.1f}s. Wrote {adj_path}")
+
+
+# =================== Distances + All shortest paths ===================
+def _gb_distance_vector(A: Matrix, src: int, *, stop_at: int | None = None) -> Vector:
+    """Level-synchronous BFS distance vector from src. Early-stops when stop_at got labeled."""
+    n = A.nrows
+    frontier = Vector(dtypes.BOOL, size=n); frontier[src] = True
+    visited  = Vector(dtypes.BOOL, size=n); visited[src] = True
+    dist = Vector(dtypes.INT32, size=n); dist[src] = 0
+    k = 0
+    while frontier.nvals:
+        if stop_at is not None and visited[stop_at].value:
+            break
+        nxt = Vector(dtypes.BOOL, size=n)
+        nxt(mask=~visited.S, replace=True) << semiring.lor_pair(frontier @ A)
+        k += 1
+        dist(mask=nxt.S) << k
+        visited |= nxt
+        frontier = nxt
+    return dist
+
+def all_shortest_paths(A: Matrix, AT: Matrix, src: int, dst: int,
+                       adj: AdjDB | None = None,
+                       max_paths: int | None = None) -> list[list[int]]:
+    """Enumerate *all* shortest directed paths using dist + rdist DAG filter."""
+    if src == dst:
+        return [[src]]
+    dist  = _gb_distance_vector(A, src, stop_at=dst)
+    d_dst = dist[dst].value
+    if d_dst is None:
+        return []
+    rdist = _gb_distance_vector(AT, dst, stop_at=None)
+    L = int(d_dst)
+    def outs(u: int) -> np.ndarray:
+        if adj is not None:
+            return adj.out_neighbors(u)
+        row = A[u, :].new()
+        if row.nvals == 0:
+            return np.empty(0, dtype=np.uint32)
+        idx, _ = row.to_coo()
+        return np.asarray(idx, dtype=np.uint32)
+
+    out = []
+    stack = [(src, [src])]
+    while stack:
+        u, path = stack.pop()
+        if u == dst:
+            out.append(path)
+            if max_paths is not None and len(out) >= max_paths:
+                break
+            continue
+        du = dist[u].value
+        if du is None:
+            continue
+        for v in outs(u):
+            rv = rdist[int(v)].value
+            if rv is None: 
+                continue
+            if int(du) + 1 + int(rv) == L:
+                stack.append((int(v), path + [int(v)]))
+    return out
+
+# =================== Path cache DB ===================
+def _open_path_cache(cache_dir: Path) -> sqlite3.Connection:
+    p = Path(cache_dir) / "search_cache.sqlite"
+    conn = sqlite3.connect(str(p))
+    c = conn.cursor()
+    c.executescript("""
+      PRAGMA journal_mode=WAL;
+      PRAGMA synchronous=NORMAL;
+      CREATE TABLE IF NOT EXISTS path_cache(
+        src_nid INT NOT NULL,
+        dst_nid INT NOT NULL,
+        hoplen  INT NOT NULL,
+        paths_json TEXT NOT NULL,
+        paths_count INT NOT NULL,
+        created_ts INT NOT NULL DEFAULT (strftime('%s','now')),
+        PRIMARY KEY (src_nid, dst_nid, hoplen)
+      );
+      CREATE INDEX IF NOT EXISTS idx_cache_src ON path_cache(src_nid);
+      CREATE INDEX IF NOT EXISTS idx_cache_dst ON path_cache(dst_nid);
+    """); conn.commit()
+    return conn
+
+def _cache_lookup(cache_dir: Path, s: int, t: int):
+    conn = _open_path_cache(cache_dir)
+    row = conn.execute(
+        "SELECT paths_json FROM path_cache WHERE src_nid=? AND dst_nid=? ORDER BY hoplen LIMIT 1",
+        (s, t)
+    ).fetchone()
+    conn.close()
+    return json.loads(row[0]) if row else None
+
+def _cache_store(cache_dir: Path, s: int, t: int, paths: list[list[int]]):
+    if not paths:
+        return
+    hoplen = len(paths[0]) - 1
+    conn = _open_path_cache(cache_dir)
+    conn.execute(
+        "INSERT OR REPLACE INTO path_cache(src_nid,dst_nid,hoplen,paths_json,paths_count) VALUES (?,?,?,?,?)",
+        (s, t, hoplen, json.dumps(paths, separators=(',', ':')), len(paths))
+    )
+    conn.commit(); conn.close()
+
+# =================== CLI: build-adj, query-all ===================
+def cmd_build_adj(args):
+    build_adjacency_sqlite(args.cache)
+
+def cmd_query_all(args):
+    cache = Path(args.cache)
+    # 1) Open titles DB and resolve src/dst first (cheap)
+    titledb = cache / "title_index.sqlite"
+    conn = open_title_db_readonly(str(titledb))
+    cur = conn.cursor()
+    src_title, dst_title = args.src, args.dst
+    cur.execute("SELECT nid FROM title WHERE title=?", (src_title,))
+    row = cur.fetchone(); 
+    if not row:
+        print(json.dumps({'paths': [], 'hoplen': None, 'error': f'No such title: {src_title}'})); conn.close(); return
+    src = int(row[0])
+    cur.execute("SELECT nid FROM title WHERE title=?", (dst_title,))
+    row = cur.fetchone(); 
+    if not row:
+        print(json.dumps({'paths': [], 'hoplen': None, 'error': f'No such title: {dst_title}'})); conn.close(); return
+    dst = int(row[0])
+
+    # 2) Check path cache BEFORE loading A/AT
+    cached = _cache_lookup(cache, src, dst)
+    if cached is not None:
+        paths = cached
+        if args.titles:
+            def id2title(nid: int) -> str:
+                r = cur.execute("SELECT title FROM title WHERE nid=?", (int(nid),)).fetchone()
+                return r[0] if r else f"<{nid}>"
+            tpaths = [[id2title(n) for n in p] for p in paths]
+            print(json.dumps({'paths': tpaths, 'hoplen': len(paths[0])-1 if paths else None}, ensure_ascii=False))
+        else:
+            print(json.dumps({'paths': paths, 'hoplen': len(paths[0])-1 if paths else None}, ensure_ascii=False))
+        conn.close(); return
+
+    # 3) Prefer adjacency for neighbor expansion if available; then load A/AT for distances
+    adj = None
+    ap = _ensure_adj_sqlite(cache)
+    if ap:
+        adj = AdjDB(ap)
+    A, AT = load_or_create_A_AT(cache)
+    paths = all_shortest_paths(A, AT, src, dst, adj=adj, max_paths=args.max_paths)
+    _cache_store(cache, src, dst, paths)
+
+    # 4) Emit results
+    if args.titles:
+        def id2title(nid: int) -> str:
+            r = cur.execute("SELECT title FROM title WHERE nid=?", (int(nid),)).fetchone()
+            return r[0] if r else f"<{nid}>"
+        tpaths = [[id2title(n) for n in p] for p in paths]
+        print(json.dumps({'paths': tpaths, 'hoplen': len(paths[0])-1 if paths else None}, ensure_ascii=False))
+    else:
+        print(json.dumps({'paths': paths, 'hoplen': len(paths[0])-1 if paths else None}, ensure_ascii=False))
+    conn.close()
+
 def main():
     ap = argparse.ArgumentParser(prog="gb_bfs.py")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     ap_b = sub.add_parser("build-grb", help="Build/load GraphBLAS A/AT from cache")
     ap_b.add_argument("--cache", required=True)
-    ap_b.set_defaults(func=cmd_build_grb)
+    ap_b.set_defaults(func=cmd_build_grb  )
+
+    ap_b = sub.add_parser("build-adj", help="Buildpre-computed adjacencies for GraphBLAS A cache")
+    ap_b.add_argument("--cache", required=True)
+    ap_b.set_defaults(func=cmd_build_adj)
 
     ap_q = sub.add_parser("query", help="Query shortest path with GraphBLAS BFS")
     ap_q.add_argument("--cache", required=True)

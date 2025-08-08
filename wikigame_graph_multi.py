@@ -54,7 +54,7 @@ from typing import Dict, Iterable, List, Optional, Set, Tuple
 MAIN_NS = 0
 
 from rindex import SCCReachabilityIndex
-from gb_bfs import cmd_query, cmd_verify
+from gb_bfs import cmd_query, cmd_verify, cmd_query_all
 from c_helpers import (
     bin_to_edgelist,
     shards_to_edgelist,
@@ -854,8 +854,8 @@ def cmd_build(args):
                 "builder": "lowmem-sqlite+edgelist", "block_bytes": block_bytes
             }))
             print(f"[✓] Build complete. Cache at: {cache}")
-            return
 
+    else:
         # Allocate then assemble from edges.bin in constant memory
         conn = sqlite3.connect(f"file:{titledb}?mode=ro&immutable=1", uri=True)
         n_nodes = conn.execute("SELECT COUNT(*) FROM title").fetchone()[0]
@@ -884,6 +884,14 @@ def cmd_build(args):
             "builder": "lowmem-sqlite", "block_bytes": block_bytes
         }))
         print(f"[✓] Build complete. Cache at: {cache}")
+
+    # Optional: auto-build adjacency.sqlite for GraphBLAS all-paths queries
+    try:
+        from gb_bfs import build_adjacency_sqlite
+        print("[+] Building adjacency.sqlite (out+in neighbors)...")
+        build_adjacency_sqlite(str(cache))
+    except Exception as e:
+        print(f"[!] Skipped adjacency build: {e}. You can run: python gb_bfs.py build-adj --cache {cache}")
         return
 
     # ===================== FAST POSIX PARALLEL BUILDER =====================
@@ -1003,6 +1011,14 @@ def cmd_build(args):
         "mem_threshold": mem_threshold, "block_bytes": block_bytes
     }))
     print(f"[✓] Build complete. Cache at: {cache}")
+
+    # Optional: auto-build adjacency.sqlite for GraphBLAS all-paths queries
+    try:
+        from gb_bfs import build_adjacency_sqlite
+        print("[+] Building adjacency.sqlite (out+in neighbors)...")
+        build_adjacency_sqlite(str(cache))
+    except Exception as e:
+        print(f"[!] Skipped adjacency build: {e}. You can run: python gb_bfs.py build-adj --cache {cache}")
 
 def _ensure_cache(cache: Path) -> Tuple[nk.Graph, sqlite3.Connection]:
     nkbg = cache / "graph.nkbg"
@@ -1196,6 +1212,14 @@ def main():
     ap_sample_set.add_argument("--dst", help="Fixed destination title (random if not specified)")
     ap_sample_set.add_argument("--backoff", type=int, help="Seconds to sleep between failed attempts (120s if not specified)")
     ap_sample_set.set_defaults(func=cmd_sample_set)
+
+    ap_qall = sub.add_parser("query-all", help="All shortest paths (GraphBLAS, cached)")
+    ap_qall.add_argument("--cache", required=True)
+    ap_qall.add_argument("--src", required=True)
+    ap_qall.add_argument("--dst", required=True)
+    ap_qall.add_argument("--max-paths", type=int, default=None)
+    ap_qall.add_argument("--titles", action="store_true")
+    ap_qall.set_defaults(func=cmd_query_all)
 
     ap_conv = sub.add_parser("convert", help="Convert graph.bin -> graph.nkbg")
     ap_conv.add_argument("--in", dest="infile", required=True, help="graph.bin path")
